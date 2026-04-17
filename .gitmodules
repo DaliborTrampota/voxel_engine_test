@@ -1,0 +1,3 @@
+[submodule "voxel_engine"]
+	path = voxel_engine
+	url = https://github.com/DaliborTrampota/voxel_engine.git

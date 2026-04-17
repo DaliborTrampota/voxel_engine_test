@@ -1,0 +1,16 @@
+CompileFlags:
+  CompilationDatabase: build
+  Add:
+    - --target=x86_64-pc-windows-msvc
+    - -fms-compatibility
+    - -fms-extensions
+    - -xc++
+    - -IP:/Github/VoxelEngine/engine_test/voxel_engine/src
+    - -IP:/Github/VoxelEngine/engine_test/voxel_engine/dependencies/glm
+    - -IP:/Github/VoxelEngine/engine_test/voxel_engine/dependencies/FastNoise2/include
+    - -IP:/Github/VoxelEngine/engine_test/voxel_engine/dependencies/include
+    - -IP:/Github/VoxelEngine/engine_test/voxel_engine/dependencies/glfw/include
+    - -IP:/Github/VoxelEngine/engine_test/voxel_engine/dependencies/lwgl/include
+    - -IP:/Github/VoxelEngine/engine_test/voxel_engine/dependencies/lwgl/dependencies/include
+Documentation:
+  CommentFormat: Doxygen
