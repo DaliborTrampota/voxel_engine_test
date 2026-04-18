@@ -48,7 +48,10 @@ void Player::update(float dt) {
     bool down = input->isKey<Down>(GLFW_KEY_LEFT_SHIFT);
     float upDown = up - down;
 
-    move(glm::normalize(glm::vec3(sideways, 0, forward)), dt);
+    glm::vec3 moveDir(sideways, upDown, forward);
+    if (!glm::all(glm::epsilonEqual(moveDir, glm::vec3{0.0f}, 0.01f))) {
+        move(glm::normalize(moveDir), dt);
+    }
 
     if (input->isKey<Pressed>(GLFW_KEY_P)) {
         spawn(m_world, m_spawnpoint);
@@ -79,7 +82,7 @@ void Player::rotate(float dx, float dy, bool constrainPitch) {
     m_camera->rotate(dx, dy, constrainPitch);
 }
 
-void Player::setPosition(glm::vec3 position, float stepHeight) {
+void Player::setPosition(glm::vec3 position) {
     m_position = position;
     position.y += m_playerHeight;
 

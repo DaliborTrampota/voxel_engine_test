@@ -21,9 +21,9 @@ class Player : public engine::Updateable {
 
     void update(float dt) override;
 
-    void move(glm::vec3 lDir, float dt);
+    void move(glm::vec3 dir, float dt);
     void rotate(float dx, float dy, bool constrainPitch = true);
-    void setPosition(glm::vec3 position, float stepHeight = 0.0f);
+    void setPosition(glm::vec3 position);
 
     engine::Camera* getCamera() { return m_camera.get(); }
     const glm::vec3& position() const { return m_position; }
