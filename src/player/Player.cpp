@@ -2,8 +2,9 @@
 
 #include "../GameServices.h"
 
-#include "GLFW/glfw3.h"
 #include <memory>
+#include "GLFW/glfw3.h"
+
 
 #include <input/InputSystem.h>
 #include <level/Chunk.h>
@@ -18,68 +19,69 @@
 
 using namespace engine;
 
-Player::Player(PerspectiveOptions opts)
-    : m_world(nullptr), m_position(0, 0, 0) {
-  m_camera = std::make_unique<Camera>(opts);
+Player::Player(PerspectiveOptions opts) : m_world(nullptr), m_position(0, 0, 0) {
+    m_camera = std::make_unique<Camera>(opts);
 }
 
 Player::~Player() {}
 
 void Player::spawn(std::shared_ptr<World> world, glm::vec3 spawnPos) {
-  m_world = world;
-  m_spawnpoint = spawnPos;
-  setPosition(spawnPos);
-  m_camera->lookAt(m_camera->position() + NORTH);
+    m_world = world;
+    m_spawnpoint = spawnPos;
+    setPosition(spawnPos);
+    m_camera->lookAt(m_camera->position() + NORTH);
 
-  printf("Spawning player at %.2f %.2f %.2f\n", spawnPos.x, spawnPos.y,
-         spawnPos.z);
+    printf("Spawning player at %.2f %.2f %.2f\n", spawnPos.x, spawnPos.y, spawnPos.z);
 }
 
 void Player::update(float dt) {
-  auto input = GameServices::getInputSystem();
-  float mouseX = input->getAxis(InputAxis::MouseX);
-  float mouseY = input->getAxis(InputAxis::MouseY);
+    auto input = GameServices::getInputSystem();
+    float mouseX = input->getAxis(InputAxis::MouseX);
+    float mouseY = input->getAxis(InputAxis::MouseY);
 
-  rotate(mouseX, mouseY, true);
+    rotate(mouseX, mouseY, true);
 
-  float forward = input->getAxis(InputAxis::Forward);
-  float sideways = input->getAxis(InputAxis::Sideways);
+    float forward = input->getAxis(InputAxis::Forward);
+    float sideways = input->getAxis(InputAxis::Sideways);
 
-  bool up = input->isKey<Down>(GLFW_KEY_SPACE);
-  bool down = input->isKey<Down>(GLFW_KEY_LEFT_SHIFT);
-  float upDown = up - down;
+    bool up = input->isKey<Down>(GLFW_KEY_SPACE);
+    bool down = input->isKey<Down>(GLFW_KEY_LEFT_SHIFT);
+    float upDown = up - down;
 
-  move(glm::normalize(glm::vec3(sideways, 0, forward)), dt);
+    move(glm::normalize(glm::vec3(sideways, 0, forward)), dt);
 
-  if (input->isKey<Pressed>(GLFW_KEY_P)) {
-    spawn(m_world, m_spawnpoint);
-  }
+    if (input->isKey<Pressed>(GLFW_KEY_P)) {
+        spawn(m_world, m_spawnpoint);
+    }
 
-  if (input->isKey<Pressed>(GLFW_KEY_L)) {
-    auto dir = m_camera->lookDirection();
-    printf("Look direction: %.1f, %.1f, %.1f\n", dir.x, dir.y, dir.z);
-    printf("Position: %.1f, %.1f, %.1f\n", m_position.x, m_position.y,
-           m_position.z);
-    printf("Camera: %.1f, %.1f, %.1f\n", m_camera->position().x,
-           m_camera->position().y, m_camera->position().z);
-  }
+    if (input->isKey<Pressed>(GLFW_KEY_L)) {
+        auto dir = m_camera->lookDirection();
+        printf("Look direction: %.1f, %.1f, %.1f\n", dir.x, dir.y, dir.z);
+        printf("Position: %.1f, %.1f, %.1f\n", m_position.x, m_position.y, m_position.z);
+        printf(
+            "Camera: %.1f, %.1f, %.1f\n",
+            m_camera->position().x,
+            m_camera->position().y,
+            m_camera->position().z
+        );
+    }
 }
 
 void Player::move(glm::vec3 dir, float dt) {
-  glm::quat rotation = m_camera->rotation(true);
-  glm::vec3 moveStep = rotation * dir * m_speed;
+    glm::quat rotation = m_camera->rotation(true);
+    glm::vec3 moveStep = rotation * dir * m_speed;
 
-  glm::vec3 displacement = moveStep * dt;
-  setPosition(m_position + displacement);
+    glm::vec3 displacement = moveStep * dt;
+    setPosition(m_position + displacement);
 }
 
 void Player::rotate(float dx, float dy, bool constrainPitch) {
-  m_camera->rotate(dx, dy, constrainPitch);
+    m_camera->rotate(dx, dy, constrainPitch);
 }
 
 void Player::setPosition(glm::vec3 position, float stepHeight) {
-  m_position = position;
-  position.y += m_playerHeight;
+    m_position = position;
+    position.y += m_playerHeight;
 
-  m_camera->position(position);
+    m_camera->position(position);
 }
