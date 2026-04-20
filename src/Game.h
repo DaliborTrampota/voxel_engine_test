@@ -30,4 +30,6 @@ class Game : public engine::Engine {
 
     std::shared_ptr<Player> m_player;
     engine::Camera* m_plrCamera;
+
+    std::shared_ptr<engine::World> m_world;
 };
