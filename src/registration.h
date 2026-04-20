@@ -9,24 +9,30 @@
 
 inline void registerBlocks() {
     engine::TextureManager& texMgr = engine::TextureManager::Get();
+    auto& geos = engine::RegistryManager::Geometries();
+    auto& blocks = engine::RegistryManager::Blocks();
+
+
     // NOTE: just pass geometry name, block will search for it?
     engine::Block ground =
-        engine::Block(8, engine::Layers::Opaque, &engine::RegistryManager::Geometries().get("cube"))
+        engine::Block(8, engine::Layers::Opaque, &geos.get("cube"))
             .isSolid(true)
             .material(engine::BlockMaterial().add(engine::FaceTag::All, texMgr.texture("ground")));
 
     engine::Block underground =
-        engine::Block(9, engine::Layers::Opaque, &engine::RegistryManager::Geometries().get("cube"))
+        engine::Block(9, engine::Layers::Opaque, &geos.get("cube"))
             .isSolid(true)
             .material(
                 engine::BlockMaterial().add(engine::FaceTag::All, texMgr.texture("underground"))
             );
 
-    engine::RegistryManager::Blocks().add(ground, "ground");
-    engine::RegistryManager::Blocks().add(underground, "underground");
+    blocks.add(ground, "ground");
+    blocks.add(underground, "underground");
 }
 
 // NOTE: default geometries should be registered automatically by engine
 inline void registerGeometries() {
-    engine::RegistryManager::Geometries().add(engine::Geometry::Cube(), "cube");
+    auto& geos = engine::RegistryManager::Geometries();
+
+    geos.add(engine::Geometry::Cube(), "cube");
 }
