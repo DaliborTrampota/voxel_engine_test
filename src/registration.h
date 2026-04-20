@@ -15,12 +15,12 @@ inline void registerBlocks() {
 
     // NOTE: just pass geometry name, block will search for it?
     engine::Block ground =
-        engine::Block(8, engine::Layers::Opaque, &geos.get("cube"))
+        engine::Block(9, engine::Layers::Opaque, &geos.get("cube"))
             .isSolid(true)
             .material(engine::BlockMaterial().add(engine::FaceTag::All, texMgr.texture("ground")));
 
     engine::Block underground =
-        engine::Block(9, engine::Layers::Opaque, &geos.get("cube"))
+        engine::Block(10, engine::Layers::Opaque, &geos.get("cube"))
             .isSolid(true)
             .material(
                 engine::BlockMaterial().add(engine::FaceTag::All, texMgr.texture("underground"))

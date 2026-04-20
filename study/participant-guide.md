@@ -9,7 +9,7 @@
 
 ---
 
-## Část 1 — Základní informace (5 minut)
+## Část 1 — Základní informace
 
 Vyplňte prosím před otevřením jakéhokoli kódu: 
 - https://forms.gle/jvNXzcFg5f3W8ZFS6
@@ -52,9 +52,18 @@ voxel_engine/
 | `underground` | 9 | `underground.png` — všechny strany |
 | `cube` | (auto) | — pouze geometrie |
 
-**Přidání nové textury bloku:** Vložte libovolný PNG soubor do složky `resources/` a znovu sestavte projekt. Název textury v kódu je název souboru bez přípony (např. `resources/rock.png` → `tex.texture("rock")`).
+**Dostupné textury** (viz složka `resources/`):
 
-**Pravidlo pro Block ID:** ID 0–9 jsou již obsazena. Nové bloky začínejte od ID **10** výše.
+| Soubor | Vhodné použití |
+|--------|---------------|
+| `ground.png` | boky/spodek povrchového bloku |
+| `underground.png` | hlubší vrstvy |
+| `top.png` | horní strana povrchového bloku |
+| `sides.png` | alternativní textura pro boky |
+
+**Pojmenování textur:** Název textury v kódu je název souboru bez přípony (např. `resources/ground.png` → `tex.texture("ground")`).
+
+**Pravidlo pro Block ID:** ID 0–10 jsou již obsazena. Nové bloky začínejte od ID **11** výše.
 
 **Dokumentace: (zatím nečíst)** `voxel_engine/docs.md` je rozcestník. Online Doxygen: https://dalibortrampota.github.io/voxel_engine/
 
@@ -77,9 +86,10 @@ U každého úkolu zapište čas **začátku** a **konce**. Pokud uvíznete na v
 ---
 
 ### Úkol 1 — Nový typ bloku
-**Doporučený čas: 20 minut**
+**Doporučený čas: 10 minut**
 
-Čas začátku:    Čas konce:    
+Čas začátku:    
+Čas konce:    
 Dokončeno: ano/ne   
 Přerušeno v: 
 
@@ -88,9 +98,8 @@ Přerušeno v:
 Terén aktuálně používá dva vizuálně totožné typy bloků. Přidejte třetí blok, který se zobrazuje pouze na **přesné povrchové vrstvě** (kde `pos.y == height(x, z)`), s vizuálně odlišnou texturou na horní straně oproti bočním a spodní straně.
 
 Postup:
-1. Přidejte nový PNG soubor do `resources/` — můžete zkopírovat a přejmenovat existující, nebo použít `ground.png` pro boky a `underground.png` pro vrchní stranu.
-2. Zaregistrujte nový blok v `registration.h` s jedinečným ID (≥ 10) a materiálem s různými texturami pro různé strany.
-3. Upravte `TerrainGenerator::voxelAt()` tak, aby vracela nový blok, když `pos.y == y` (přesná povrchová vrstva).
+1. Zaregistrujte nový blok v `registration.h` s jedinečným ID (≥ 11) a materiálem s různými texturami pro různé strany. Ideálně použít textury `top.png` a `sides.png`.
+2. Upravte `TerrainGenerator::voxelAt()` tak, aby vracela nový blok, když `pos.y == y` (přesná povrchová vrstva).
 
 **Kritérium úspěchu:** Terén v okně má vizuálně odlišnou vrchní vrstvu silnou jeden blok.
 
@@ -106,7 +115,8 @@ Postup:
 ### Úkol 2 — Struktury v terénu
 **Doporučený čas: 25 minut**
 
-Čas začátku:    Čas konce:    
+Čas začátku:    
+Čas konce:    
 Dokončeno: ano/ne   
 Přerušeno v: 
 
@@ -137,7 +147,8 @@ Pravidla:
 ### Úkol 3 — Sledovač načítání chunků
 **Doporučený čas: 25 minut**
 
-Čas začátku:    Čas konce:    
+Čas začátku:    
+Čas konce:    
 Dokončeno: ano/ne   
 Přerušeno v: 
 
@@ -170,7 +181,8 @@ Požadavky:
 ### Úkol 4 — Variantní blok *(volitelný, pokud zbývá čas)*
 **Doporučený čas: 30 minut**
 
-Čas začátku:    Čas konce:    
+Čas začátku:    
+Čas konce:    
 Dokončeno: ano/ne   
 Přerušeno v: 
 
@@ -185,7 +197,7 @@ Budete potřebovat tři geometrie. Vytvořte je pomocí `Geometry::Box(start, en
 
 Požadavky:
 1. Zaregistrujte všechny tři geometrie a `VariantBlock`.
-2. Blok musí **vždy** zobrazovat středový díl (`alwaysUseBaseGeometry(true)`).
+2. Blok musí **vždy** zobrazovat středový díl.
 3. Zobrazuje `pipe_east_west`, když je potrubí přítomno na **východě nebo západě**.
 4. Zobrazuje `pipe_north_south`, když je potrubí přítomno na **severu nebo jihu**.
 5. Více rozšíření lze zobrazit současně (`allowMultiple(true)`).
@@ -207,7 +219,8 @@ Požadavky:
 ### Úkol 5 — Bourání bloků za běhu *(volitelný, pokud zbývá čas)*
 **Doporučený čas: 25 minut**
 
-Čas začátku:    Čas konce:    
+Čas začátku:    
+Čas konce:    
 Dokončeno: ano/ne   
 Přerušeno v: 
 
@@ -233,7 +246,7 @@ Požadavky:
 
 ---
 
-## Část 4 — Dotazník po studii (10 minut)
+## Část 4 — Dotazník po studii
 
 Vyplňte prosím po skončení testování: 
 https://forms.gle/kMT63j6ak2xBThkV8
