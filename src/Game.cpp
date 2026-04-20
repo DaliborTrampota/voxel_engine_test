@@ -50,8 +50,6 @@ void Game::render(double dt) {
     // TODO: render world here?
 }
 
-void Game::afterRender() {}
-
 void Game::start() {
     // TODO: load textures?
     // TODO: register geometries and blocks to registry?
@@ -63,6 +61,7 @@ void Game::start() {
 
 
     // TODO: spawn player to world?
+    // TODO: create/set directional light source?
 
     subscribeUpdate(m_player);
 
