@@ -48,8 +48,8 @@ voxel_engine/
 
 | Název | Block ID | Textura |
 |-------|----------|---------|
-| `ground` | 8 | `ground.png` — všechny strany |
-| `underground` | 9 | `underground.png` — všechny strany |
+| `ground` | 9 | `ground.png` — všechny strany |
+| `underground` | 10 | `underground.png` — všechny strany |
 | `cube` | (auto) | — pouze geometrie |
 
 **Dostupné textury** (viz složka `resources/`):
@@ -112,7 +112,7 @@ Postup:
 
 ---
 
-### Úkol 2 — Struktury v terénu
+### Úkol 2 — Povrchové struktury
 **Doporučený čas: 25 minut**
 
 Čas začátku:    
@@ -122,18 +122,21 @@ Přerušeno v:
 
 **Co implementovat:**
 
-Rozšiřte `TerrainGenerator::populate()` tak, aby na vyšším terénu generovala struktury.
+Rozšiřte `TerrainGenerator::populate()` tak, aby na povrchu generovala dva typy dekorací.
 
-Pro každý sloupec `(x, z)` v chunku najděte **povrchový blok** — nejvyšší Y v daném sloupci, který není vzduch. Pokud je tento povrchový blok **nad Y = 3** (vzhledem k malému rozsahu výšek ve startovacím projektu), umístěte plošinu `3×3×1` z bloků `underground` jeden blok přímo nad povrch.
+Pro každý sloupec `(x, z)` v chunku najděte **povrchový blok** — nejvyšší Y v daném sloupci, který není vzduch. Na základě deterministického hashe světových souřadnic sloupce pak rozhodněte:
+
+- **~5 % sloupců:** umístěte **kmen stromu** — 3 bloky `ground` nad sebou přímo nad povrchem
+- **~10 % sloupců:** umístěte **kámen** — 1 blok `underground` přímo nad povrchem
+- **zbývající sloupce:** nic
 
 Pravidla:
-- Plošina musí být vystředěna na daném sloupci (přesahovat 1 blok v každém horizontálním směru od `x` a `z`)
-- Je přesně jeden blok vysoká
-- Umístěte ji pouze tehdy, když celá plocha 3×3 se vejde do hranic chunku — **nepište mimo chunk** (lokální souřadnice musí zůstat v `[0, dims − 1]`)
+- Kmen musí celý ležet uvnitř chunku — **nepište mimo chunk** (lokální Y musí zůstat v `[0, dims.y − 1]`)
+- Pro deterministickou náhodu použijte vhodnou funkci z `<random/Random.h>`
 
 > **Nápověda:** Uvnitř `populate()` pracujte s lokálními souřadnicemi chunku (0 až `chunk.dims() − 1`). Světová pozice lokálního `(x, y, z)` je `chunk.id() * chunk.dims() + glm::ivec3(x, y, z)`. Tento vzor již vidíte v existujícím `populate()`.
 
-**Kritérium úspěchu:** Po spuštění hry jsou na vrcholcích vyšších kopců viditelné ploché plošiny.
+**Kritérium úspěchu:** Po spuštění hry jsou na terénu viditelné roztroušené kameny a trojblokové kmeny stromů.
 
 **Poznámky / co vás zmátlo:**
 
@@ -201,7 +204,7 @@ Požadavky:
 3. Zobrazuje `pipe_east_west`, když je potrubí přítomno na **východě nebo západě**.
 4. Zobrazuje `pipe_north_south`, když je potrubí přítomno na **severu nebo jihu**.
 5. Více rozšíření lze zobrazit současně (`allowMultiple(true)`).
-6. Umístěte několik bloků potrubí vedle sebe ve světě a ověřte propojení.
+6. Pro ověření: odkomentujte připravený kód v `Game::start()` (označený `// TODO (Task 4)`), sestavte projekt a zkontrolujte, zda se spojovací segmenty zobrazují správně.
 
 > **Nápověda:** Viz `voxel_engine/docs/blocks.md` — sekce „Variant Blocks". Jedno volání `addVariant` odpovídá jednomu směru připojení; potřebujete samostatné varianty pro východ a západ (nebo zkombinujte do jedné podmínky s oběma ID bloků v daném směru).
 
