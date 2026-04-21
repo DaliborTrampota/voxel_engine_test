@@ -88,9 +88,9 @@ U každého úkolu zapište čas **začátku** a **konce**. Pokud uvíznete na v
 ### Úkol 1 — Nový typ bloku
 **Doporučený čas: 10 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku: 16:27   
+Čas konce: 16:46     
+Dokončeno: ano    
 Přerušeno v: 
 
 **Co implementovat:**
@@ -106,7 +106,7 @@ Postup:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+Snažil jsem se nacpat tomu koncovku .png a vyvolal jsem error :D Jinak postup hodně intuitivní.
 
 ```
 
@@ -115,9 +115,9 @@ Postup:
 ### Úkol 2 — Povrchové struktury
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku: 16:48   
+Čas konce: 17:38      
+Dokončeno: ano    
 Přerušeno v: 
 
 **Co implementovat:**
@@ -150,9 +150,9 @@ Pravidla:
 ### Úkol 3 — Sledovač načítání chunků
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku: 17:40    
+Čas konce: 18:30   
+Dokončeno: ano   
 Přerušeno v: 
 
 **Co implementovat:**
@@ -222,9 +222,9 @@ Požadavky:
 ### Úkol 5 — Bourání bloků za běhu *(volitelný, pokud zbývá čas)*
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku: 18:40    
+Čas konce: 19:12    
+Dokončeno: ano      
 Přerušeno v: 
 
 **Co implementovat:**

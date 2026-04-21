@@ -1,10 +1,11 @@
-#pragma once
+﻿#pragma once
 
 
 #include <level/ITerrainGenerator.h>
 #include <random/PerlinNoise.h>
 
 #include <block/Block.h>
+#include <random/Random.h>
 #include <data/RegistryManager.h>
 #include <level/Chunk.h>
 #include <level/data/IChunkData.h>
@@ -19,6 +20,8 @@ class TerrainGenerator : public engine::ITerrainGenerator {
         int y = height(pos.x, pos.z);
         if (pos.y > y)
             return engine::Block::AirID;
+        if (pos.y == y)
+            return engine::RegistryManager::Blocks().get("surface")->getID();
         if (pos.y > y - 3)
             return engine::RegistryManager::Blocks().get("ground")->getID();
         return engine::RegistryManager::Blocks().get("underground")->getID();
@@ -37,6 +40,29 @@ class TerrainGenerator : public engine::ITerrainGenerator {
                     engine::BlockID blockID = voxelAt(glm::ivec3(x, y, z) + chunkCoords);
                     if (blockID != engine::Block::AirID) {
                         data->setBlock(glm::ivec3(x, y, z), blockID);
+                        // Snad je to ok :D
+                        glm::ivec3 position(x, y, z);
+                        if (position.y = height(position.x, position.z)) {
+                            bool spawnTree = engine::Random::randomRange3D(x, y, z, 0, 100) < 5;
+                            bool spawnRock = engine::Random::randomRange3D(x, y, z, 0, 100) < 15;
+                            int startY = y + 1;
+
+                            int n = chunk.dims().y;
+                            if (spawnTree && y < (n - 3)) {
+                                int treeID =
+                                    engine::RegistryManager::Blocks().get("ground")->getID();
+                                for (int locY = startY; locY < startY + 3; ++locY) {
+                                    data->setBlock(glm::ivec3(x, locY, z), treeID);
+                                }
+                                continue;
+                            }
+                            if (spawnRock && y < (n - 1)) {
+                                int rockID =
+                                    engine::RegistryManager::Blocks().get("underground")->getID();
+                                data->setBlock(glm::ivec3(x, startY, z), rockID);
+                            }
+
+                        }
                     }
                 }
             }
