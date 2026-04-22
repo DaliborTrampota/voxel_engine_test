@@ -6,12 +6,15 @@
 #include "GLFW/glfw3.h"
 
 
+#include <block/Block.h>
 #include <input/InputSystem.h>
+#include <input/events/GLFWEvents.h>
 #include <level/Chunk.h>
 #include <level/World.h>
 #include <utility/Algorithms.h>
 #include <utility/CoordUtils.h>
 #include <utility/Rotation.h>
+
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
@@ -24,6 +27,25 @@ Player::Player(PerspectiveOptions opts) : m_world(nullptr), m_position(0, 0, 0) 
 }
 
 Player::~Player() {}
+
+void Player::mouseButtonEvent(MouseButtonEvent* pEvent) {
+    if (pEvent->button == GLFW_MOUSE_BUTTON_LEFT) {
+        glm::vec3 pos = getCamera()->position();
+        glm::vec3 dir = getCamera()->lookDirection();
+
+        auto hit = engine::DDA(*m_world, pos, dir, 5.0f, [](const Block* b, const Face*) -> bool {
+            if (!(b->isAir())) {
+                return true;
+            }
+
+
+            return false;
+        });
+
+        // delete it
+        m_world->setBlock(hit.position, Block::AirID);
+    }
+}
 
 void Player::spawn(std::shared_ptr<World> world, glm::vec3 spawnPos) {
     m_world = world;

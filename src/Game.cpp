@@ -21,6 +21,7 @@
 #include <render/concrete/ScenePass.h>
 
 
+#include "ChunkTracker.h"
 #include "GameServices.h"
 #include "level/TerrainGenerator.h"
 #include "registration.h"
@@ -69,6 +70,12 @@ void Game::start() {
 
     // TODO: spawn player to world?
     m_world = std::make_shared<engine::World>(std::make_unique<TerrainGenerator>(123, 50.0f, 5));
+
+    ChunkTracker myListener;
+    m_world->subscribe(&myListener);
+
+    inputSystem()->subscribe(m_player.get());
+
     m_world->loadChunks({-3, -3, -3}, {3, 3, 3});
 
     int height = m_world->getGenerator()->height(0, 0);
