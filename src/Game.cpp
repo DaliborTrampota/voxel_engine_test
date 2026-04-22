@@ -50,14 +50,12 @@ void Game::render(double dt) {
     processInput();
     fireUpdate(dt);
 
-    // TODO: render world here?
     m_world->render(*this, m_plrCamera);
 }
 
 void Game::start() {
-    // TODO: load textures?
     engine::TextureLoader::loadArray2D(engine::TextureManager::Get().blockTextures(), "resources/");
-    // TODO: register geometries and blocks to registry?
+
     registerGeometries();
     registerBlocks();
 
@@ -67,7 +65,6 @@ void Game::start() {
     opts.aspectRatio = m_window->aspectRatio();
     m_player = std::make_shared<Player>(opts);
 
-    // TODO: spawn player to world?
     m_world = std::make_shared<engine::World>(std::make_unique<TerrainGenerator>(123, 50.0f, 5));
     m_world->loadChunks({-3, -3, -3}, {3, 3, 3});
 
@@ -75,7 +72,6 @@ void Game::start() {
     glm::vec3 spawnPos(0, height, 0);
     m_player->spawn(m_world, spawnPos);
 
-    // TODO: create/set directional light source?
     setDirectionalLightSource(
         std::make_shared<engine::Sun>(
             glm::ivec2(4096, 4096), m_plrCamera, glm::vec3(0.5f, -1.0f, 0.2f)
@@ -83,6 +79,7 @@ void Game::start() {
     );
 
     subscribeUpdate(m_player);
+    subscribeUpdate(m_world);
 
     m_plrCamera = m_player->getCamera();
     m_plrCamera->lookAt(glm::vec3(0, 0, 0));
