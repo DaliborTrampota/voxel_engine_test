@@ -13,8 +13,8 @@
 ## Část 1 — Základní informace
 
 Vyplňte prosím před otevřením jakéhokoli kódu: 
-- https://forms.gle/jvNXzcFg5f3W8ZFS6
 
+- [https://forms.gle/jvNXzcFg5f3W8ZFS6](https://forms.gle/jvNXzcFg5f3W8ZFS6)
 
 ---
 
@@ -47,26 +47,30 @@ voxel_engine/
 
 **Co je již zaregistrováno** (viz `registration.h`):
 
-| Název | Block ID | Textura |
-|-------|----------|---------|
-| `ground` | 9 | `ground.png` — všechny strany |
-| `underground` | 10 | `underground.png` — všechny strany |
-| `cube` | (auto) | — pouze geometrie |
+
+| Název         | Block ID | Textura                            |
+| ------------- | -------- | ---------------------------------- |
+| `ground`      | 9        | `ground.png` — všechny strany      |
+| `underground` | 10       | `underground.png` — všechny strany |
+| `cube`        | (auto)   | — pouze geometrie                  |
+
 
 **Dostupné textury** (viz složka `resources/`):
 
-| Soubor | Vhodné použití |
-|--------|---------------|
-| `ground.png` | boky/spodek povrchového bloku |
-| `underground.png` | hlubší vrstvy |
-| `top.png` | horní strana povrchového bloku |
-| `sides.png` | alternativní textura pro boky |
+
+| Soubor            | Vhodné použití                 |
+| ----------------- | ------------------------------ |
+| `ground.png`      | boky/spodek povrchového bloku  |
+| `underground.png` | hlubší vrstvy                  |
+| `top.png`         | horní strana povrchového bloku |
+| `sides.png`       | alternativní textura pro boky  |
+
 
 **Pojmenování textur:** Název textury v kódu je název souboru bez přípony (např. `resources/ground.png` → `tex.texture("ground")`).
 
 **Pravidlo pro Block ID:** ID 0–10 jsou již obsazena. Nové bloky začínejte od ID **11** výše.
 
-**Dokumentace: (zatím nečíst)** `voxel_engine/docs.md` je rozcestník. Online Doxygen: https://dalibortrampota.github.io/voxel_engine/
+**Dokumentace: (zatím nečíst)** `voxel_engine/docs.md` je rozcestník. Online Doxygen: [https://dalibortrampota.github.io/voxel_engine/](https://dalibortrampota.github.io/voxel_engine/)
 
 ---
 
@@ -75,8 +79,8 @@ voxel_engine/
 Otevřete soubory `src/Game.cpp`, `src/registration.h` a `src/level/TerrainGenerator.h` a přečtěte si je. Dokumentaci **zatím neotevírejte**.
 
 Poté odpovězte na otázky ve formuláři pouze na základě toho, co vidíte v kódu:
-- https://forms.gle/Rtb3qneLNqGKUupy9
 
+- [https://forms.gle/Rtb3qneLNqGKUupy9](https://forms.gle/Rtb3qneLNqGKUupy9)
 
 ---
 
@@ -170,9 +174,9 @@ Požadavky:
 
 1. `ChunkTracker` se přihlásí k odběru událostí `World`.
 2. Pokaždé, když se chunk **chystá načíst**, vypište na `stdout`:
-   ```
+  ```
    Chunk loaded: (x, y, z)  |  Total loaded so far: N
-   ```
+  ```
    kde `(x, y, z)` jsou souřadnice chunku a `N` je průběžný součet.
 3. Přihlaste instanci `ChunkTracker` ke světu **před** voláním `loadChunks()` v `Game::start()`.
 
@@ -189,45 +193,8 @@ Požadavky:
 
 ---
 
-### Úkol 4 — Variantní blok *(volitelný, pokud zbývá čas)*
-**Doporučený čas: 30 minut**
+### Úkol 4 — Bourání bloků za běhu *(volitelný, pokud zbývá čas)*
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
-Přerušeno v: 
-
-**Co implementovat:**
-
-Implementujte blok **potrubí**, který se vizuálně napojuje na sousední potrubí stejného typu.
-
-Budete potřebovat tři geometrie. Vytvořte je pomocí `Geometry::Box(start, end)`:
-- `pipe_center` — např. `Box({0.35f, 0.35f, 0.35f}, {0.65f, 0.65f, 0.65f})` — střed potrubí
-- `pipe_east_west` — segment podél osy X (např. `Box({0.0f, 0.35f, 0.35f}, {1.0f, 0.65f, 0.65f})`)
-- `pipe_north_south` — segment podél osy Z (např. `Box({0.35f, 0.35f, 0.0f}, {0.65f, 0.65f, 1.0f})`)
-
-Požadavky:
-1. Zaregistrujte všechny tři geometrie a `VariantBlock`.
-2. Blok musí **vždy** zobrazovat středový díl.
-3. Zobrazuje `pipe_east_west`, když je potrubí přítomno na **východě nebo západě**.
-4. Zobrazuje `pipe_north_south`, když je potrubí přítomno na **severu nebo jihu**.
-5. Více rozšíření lze zobrazit současně (`allowMultiple(true)`).
-6. Pro ověření: odkomentujte připravený kód v `Game::start()` (označený `// TODO (Task 4)`), sestavte projekt a zkontrolujte, zda se spojovací segmenty zobrazují správně.
-
-> **Nápověda:** Viz `voxel_engine/docs/blocks.md` — sekce „Variant Blocks". Jedno volání `addVariant` odpovídá jednomu směru připojení; potřebujete samostatné varianty pro východ a západ (nebo zkombinujte do jedné podmínky s oběma ID bloků v daném směru).
-
-**Kritérium úspěchu:** Izolované potrubí zobrazuje pouze středový díl; sousední potrubí zobrazuje spojovací segmenty.
-
-**Poznámky / co vás zmátlo:**
-
-```
-
-
-```
-
----
-
-### Úkol 5 — Bourání bloků za běhu *(volitelný, pokud zbývá čas)*
 **Doporučený čas: 25 minut**
 
 Čas začátku:  6 30
@@ -261,6 +228,7 @@ Požadavky:
 ## Část 4 — Dotazník po studii
 
 Vyplňte prosím po skončení testování: 
-https://forms.gle/kMT63j6ak2xBThkV8
+[https://forms.gle/kMT63j6ak2xBThkV8](https://forms.gle/kMT63j6ak2xBThkV8)
 
 ---
+
