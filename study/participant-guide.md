@@ -197,8 +197,8 @@ Požadavky:
 
 **Doporučený čas: 25 minut**
 
-Čas začátku:  6 30
-Čas konce:  7 18
+Čas začátku:  6:30
+Čas konce:  7:18
 Dokončeno: ano/ne  
 Přerušeno v: 
 
