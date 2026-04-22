@@ -24,6 +24,7 @@
 #include "GameServices.h"
 #include "level/TerrainGenerator.h"
 #include "registration.h"
+#include "../build/ChunkTracer.h"
 
 using namespace engine;
 
@@ -66,6 +67,10 @@ void Game::start() {
     m_player = std::make_shared<Player>(opts);
 
     m_world = std::make_shared<engine::World>(std::make_unique<TerrainGenerator>(123, 50.0f, 5));
+    std::shared_ptr<EventSite> tracer = std::make_shared<ChunkTracer>();
+    m_world->subscribe(tracer.get());
+    inputSystem()->subscribe(m_player.get());
+
     m_world->loadChunks({-3, -3, -3}, {3, 3, 3});
 
     int height = m_world->getGenerator()->height(0, 0);
