@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <memory>
 
+#include <input/events/GLFWEventSite.h>
 #include <level/Chunk.h>
 #include <scene/Camera.h>
 #include <scene/Updateable.h>
@@ -12,7 +13,8 @@ namespace engine {
     class World;
 }  // namespace engine
 
-class Player : public engine::Updateable {
+class Player : public engine::Updateable,
+               public engine::GLFWEventSite {
   public:
     Player(engine::PerspectiveOptions opts);
     ~Player();
@@ -27,6 +29,8 @@ class Player : public engine::Updateable {
 
     engine::Camera* getCamera() { return m_camera.get(); }
     const glm::vec3& position() const { return m_position; }
+
+    void mouseButtonEvent(engine::MouseButtonEvent* pEvent) override;
 
   private:
     glm::vec3 m_position;

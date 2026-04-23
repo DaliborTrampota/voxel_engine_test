@@ -1,4 +1,5 @@
 # VoxelEngine — Studie použitelnosti
+
 ### Průvodce pro účastníka
 
 ---
@@ -90,11 +91,12 @@ U každého úkolu zapište čas **začátku** a **konce**. Pokud uvíznete na v
 ---
 
 ### Úkol 1 — Nový typ bloku
+
 **Doporučený čas: 10 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku: 4:53  
+Čas konce:  5:01
+Dokončeno: ano
 Přerušeno v: 
 
 **Co implementovat:**
@@ -102,6 +104,7 @@ Přerušeno v:
 Terén aktuálně používá dva vizuálně totožné typy bloků. Přidejte třetí blok, který se zobrazuje pouze na **přesné povrchové vrstvě** (kde `pos.y == height(x, z)`), s vizuálně odlišnou texturou na horní straně oproti bočním a spodní straně.
 
 Postup:
+
 1. Zaregistrujte nový blok v `registration.h` s jedinečným ID (≥ 11) a materiálem s různými texturami pro různé strany. Ideálně použít textury `top.png` a `sides.png`.
 2. Upravte `TerrainGenerator::voxelAt()` tak, aby vracela nový blok, když `pos.y == y` (přesná povrchová vrstva).
 
@@ -110,18 +113,19 @@ Postup:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+nevěděl jsem kde to spustit
 
 ```
 
 ---
 
 ### Úkol 2 — Povrchové struktury
+
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:  5:03
+Čas konce:  5:49
+Dokončeno: ano  
 Přerušeno v: 
 
 **Co implementovat:**
@@ -135,6 +139,7 @@ Pro každý sloupec `(x, z)` v chunku najděte **povrchový blok** — nejvyšš
 - **zbývající sloupce:** nic
 
 Pravidla:
+
 - Kmen musí celý ležet uvnitř chunku — **nepište mimo chunk** (lokální Y musí zůstat v `[0, dims.y − 1]`)
 - Pro deterministickou náhodu použijte vhodnou funkci z `<random/Random.h>`
 
@@ -145,18 +150,20 @@ Pravidla:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+zvyknout si na rozdíl globální/lokální souřadnice
+asi bych byl rád za metodu chunku která umí dát globální a metodu která umí otestovat, zda je souřadnice uvnitř chunku (ale udělal jsem si je sám)
 
 ```
 
 ---
 
 ### Úkol 3 — Sledovač načítání chunků
+
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:  5:52
+Čas konce:  6:24
+Dokončeno: ano
 Přerušeno v: 
 
 **Co implementovat:**
@@ -164,6 +171,7 @@ Přerušeno v:
 Vytvořte třídu `ChunkTracker`, která naslouchá světu a počítá načtené chunky.
 
 Požadavky:
+
 1. `ChunkTracker` se přihlásí k odběru událostí `World`.
 2. Pokaždé, když se chunk **chystá načíst**, vypište na `stdout`:
   ```
@@ -189,9 +197,9 @@ Požadavky:
 
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:  6:30
+Čas konce:  7:18
+Dokončeno: ano/ne  
 Přerušeno v: 
 
 **Co implementovat:**
@@ -199,11 +207,12 @@ Přerušeno v:
 Umožněte hráči **bourat bloky levým tlačítkem myši**. Kliknutí odstraní první pevný blok v přímce pohledu (dosah 5 jednotek).
 
 Požadavky:
+
 1. Reakce na kliknutí musí být **event-based** (ne polling v `update()`).
 2. Paprsek vychází z pozice kamery ve směru pohledu; odstraňte první nezduchový blok, který protíná.
 3. Pokud paprsek nic nezasáhne, nic se nestane.
 
-> **Nápověda:** Viz `voxel_engine/docs/events-input.md` — sekce „Event System" a „Subscribing to Events" — pro zachytávání vstupních událostí. Viz `voxel_engine/docs/world-terrain.md` — sekce „Block Access" a „Coordinate Utilities" — pro čtení a nastavování bloků; funkce `traceLine` vrátí seznam bloků, přes které paprsek prochází.
+> **Nápověda:** Viz `voxel_engine/docs/events-input.md` — sekce „Event System" a „Subscribing to Events" — pro zachytávání vstupních událostí. Viz `voxel_engine/docs/world-terrain.md` — sekce „Block Access" a „Coordinate Utilities" — pro čtení a nastavování bloků; funkce `DDA` vrátí `DDAResult` s prvním blokem, který paprsek zasáhne (obsahuje ukazatel na blok, pozici, normálu plochy a vzdálenost).
 
 **Kritérium úspěchu:** Levé kliknutí myší odstraní blok, na který hráč míří.
 
