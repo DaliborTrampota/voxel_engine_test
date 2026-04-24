@@ -185,7 +185,7 @@ Požadavky:
 
 ---
 
-### Úkol 4 — Bourání bloků za běhu *(volitelný, pokud zbývá čas)*
+### Úkol 4 — Bourání bloků za běhu
 
 **Doporučený čas: 25 minut**
 
