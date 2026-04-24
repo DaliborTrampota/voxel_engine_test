@@ -4,6 +4,7 @@
 #include <memory>
 
 #include <level/Chunk.h>
+#include <level/events/LevelEventSite.h>
 #include <scene/Camera.h>
 #include <scene/Updateable.h>
 

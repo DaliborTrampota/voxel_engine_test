@@ -22,7 +22,17 @@
 
 
 #include "GameServices.h"
-#include "level/TerrainGenerator.h"
+#include "level/BiomeGenerator.h"
+#include "level/biome/biomes/AlgalPlains.h"
+#include "level/biome/biomes/AshPlains.h"
+#include "level/biome/biomes/BasaltPlateaus.h"
+#include "level/biome/biomes/CrystalFlats.h"
+#include "level/biome/biomes/FracturedBasaltFields.h"
+#include "level/biome/biomes/FrozenGasFields.h"
+#include "level/biome/biomes/IronBasaltPlateaus.h"
+#include "level/biome/biomes/MicrobialCrust.h"
+#include "level/biome/biomes/SilicateSandSeas.h"
+#include "level/biome/biomes/SlateRockFields.h"
 #include "registration.h"
 
 using namespace engine;
@@ -54,7 +64,9 @@ void Game::render(double dt) {
 }
 
 void Game::start() {
-    engine::TextureLoader::loadArray2D(engine::TextureManager::Get().blockTextures(), "resources/");
+    engine::TextureLoader::loadArray2D(
+        engine::TextureManager::Get().blockTextures(), "resources/textures/"
+    );
 
     registerGeometries();
     registerBlocks();
@@ -65,8 +77,24 @@ void Game::start() {
     opts.aspectRatio = m_window->aspectRatio();
     m_player = std::make_shared<Player>(opts);
 
-    m_world = std::make_shared<engine::World>(std::make_unique<TerrainGenerator>(123, 50.0f, 5));
-    m_world->loadChunks({-3, -3, -3}, {3, 3, 3});
+
+    auto generator = std::make_unique<BiomeGenerator>(67);
+    generator->setEnableBlending(true);
+    generator->add(std::make_unique<AshPlainsBiome>());
+    generator->add(std::make_unique<AlgalPlainsBiome>());
+    generator->add(std::make_unique<MicrobialCrustBiome>());
+    generator->add(std::make_unique<SlateRockFieldsBiome>());
+    generator->add(std::make_unique<BasaltPlateausBiome>());
+    generator->add(std::make_unique<FracturedBasaltFieldsBiome>());
+    generator->add(std::make_unique<IronBasaltPlateausBiome>());
+    generator->add(std::make_unique<SilicateSandSeasBiome>());
+    generator->add(std::make_unique<CrystalFlatsBiome>());
+    generator->add(std::make_unique<FrozenGasFieldsBiome>());
+
+    m_world = std::make_shared<engine::World>(std::move(generator));
+    m_world->loadChunks({-3, 0, -3}, {3, 6, 3});
+
+    m_plrCamera = m_player->getCamera();
 
     int height = m_world->getGenerator()->height(0, 0);
     glm::vec3 spawnPos(0, height, 0);
@@ -81,7 +109,6 @@ void Game::start() {
     subscribeUpdate(m_player);
     subscribeUpdate(m_world);
 
-    m_plrCamera = m_player->getCamera();
     m_plrCamera->lookAt(glm::vec3(0, 0, 0));
     m_window->subscribe(m_plrCamera);
 
