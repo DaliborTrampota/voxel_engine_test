@@ -203,7 +203,7 @@ Požadavky:
 2. Paprsek vychází z pozice kamery ve směru pohledu; odstraňte první nezduchový blok, který protíná.
 3. Pokud paprsek nic nezasáhne, nic se nestane.
 
-> **Nápověda:** Viz `voxel_engine/docs/events-input.md` — sekce „Event System" a „Subscribing to Events" — pro zachytávání vstupních událostí. Viz `voxel_engine/docs/world-terrain.md` — sekce „Block Access" a „Coordinate Utilities" — pro čtení a nastavování bloků; funkce `traceLine` vrátí seznam bloků, přes které paprsek prochází.
+> **Nápověda:** Viz `voxel_engine/docs/events-input.md` — sekce „Event System" a „Subscribing to Events" — pro zachytávání vstupních událostí. Viz `voxel_engine/docs/world-terrain.md` — sekce „Block Access" a „Coordinate Utilities" — pro čtení a nastavování bloků; funkce `DDA` (v `utility/Algorithms.h`) vysílá paprsek do světa a vrátí první blok, který splňuje zadaný predikát — předejte predikát, který odmítá vzduchové bloky, a dostanete první pevný blok v dosahu.
 
 **Kritérium úspěchu:** Levé kliknutí myší odstraní blok, na který hráč míří.
 
