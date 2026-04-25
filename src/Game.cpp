@@ -91,8 +91,9 @@ void Game::start() {
     generator->add(std::make_unique<CrystalFlatsBiome>());
     generator->add(std::make_unique<FrozenGasFieldsBiome>());
 
+    glm::ivec3 viewDistance = {16, 3, 16};
     m_world = std::make_shared<engine::World>(std::move(generator));
-    m_world->loadChunks({-3, 0, -3}, {3, 6, 3});
+    m_world->loadChunks(glm::ivec3{0, 3, 0} - viewDistance, glm::ivec3{0, 3, 0} + viewDistance);
 
     m_plrCamera = m_player->getCamera();
 
@@ -105,6 +106,10 @@ void Game::start() {
             glm::ivec2(4096, 4096), m_plrCamera, glm::vec3(0.5f, -1.0f, 0.2f)
         )
     );
+
+    m_player->setHeldBlock(engine::RegistryManager::Blocks().get("ash")->getID());
+
+    inputSystem()->subscribe(m_player.get());
 
     subscribeUpdate(m_player);
     subscribeUpdate(m_world);
