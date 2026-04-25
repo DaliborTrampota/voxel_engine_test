@@ -10,8 +10,8 @@ class SlateRockFieldsBiome : public Biome {
         : Biome("SlateRockFields", {0.05f, 1.0f}, {-0.5f, 0.2f}, ParameterRange::High, 10) {
         auto& registry = engine::RegistryManager::Blocks();
 
-        m_descriptor.heightScale = 20.0f;
-        m_descriptor.heightBase = 90.0f;
+        m_descriptor.heightScale = 10.0f;
+        m_descriptor.heightBase = 67.0f;
 
         m_descriptor.layers.push_back(
             {.palette = {{registry.get("slate")->getID()}, {1}}, .depth = 10}

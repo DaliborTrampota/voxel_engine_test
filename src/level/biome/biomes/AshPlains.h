@@ -13,8 +13,8 @@ class AshPlainsBiome : public Biome {
     AshPlainsBiome() : Biome("AshPlains", {-1.0f, 1.0f}, {-1.0f, 1.0f}, ParameterRange::Low) {
         auto& registry = engine::RegistryManager::Blocks();
 
-        m_descriptor.heightScale = 10.0f;
-        m_descriptor.heightBase = 52.0f;
+        m_descriptor.heightScale = 8.0f;
+        m_descriptor.heightBase = 62.0f;
 
         m_descriptor.layers.push_back(
             {.palette = {{registry.get("ash")->getID()}, {1}}, .depth = 8}

@@ -37,8 +37,8 @@ class FracturedBasaltFieldsBiome : public Biome {
         : Biome("FracturedBasaltFields", {0.0f, 1.0f}, {-1.0f, 0.1f}, ParameterRange::Low, 10) {
         auto& registry = engine::RegistryManager::Blocks();
 
-        m_descriptor.heightScale = 4.0f;
-        m_descriptor.heightBase = 50.0f;
+        m_descriptor.heightScale = 6.0f;
+        m_descriptor.heightBase = 62.0f;
 
         m_descriptor.layers.push_back(
             {.palette = {{registry.get("basalt")->getID()}, {1}}, .depth = -1}

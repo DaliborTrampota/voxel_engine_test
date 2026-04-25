@@ -11,7 +11,7 @@ class FrozenGasFieldsBiome : public Biome {
         auto& registry = engine::RegistryManager::Blocks();
 
         m_descriptor.heightScale = 6.0f;
-        m_descriptor.heightBase = 90.0f;
+        m_descriptor.heightBase = 67.0f;
 
         m_descriptor.layers.push_back(
             {.palette = {{registry.get("gas_ice")->getID()}, {1}}, .depth = 4}

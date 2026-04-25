@@ -11,7 +11,7 @@ class IronBasaltPlateausBiome : public Biome {
         : Biome("IronBasaltPlateaus", {-0.6f, 0.05f}, {-0.5f, 0.2f}, ParameterRange::High, 0) {
         auto& registry = engine::RegistryManager::Blocks();
 
-        m_descriptor.heightScale = 5.0f;
+        m_descriptor.heightScale = 6.0f;
         m_descriptor.heightBase = 65.0f;
 
         m_descriptor.layers.push_back(

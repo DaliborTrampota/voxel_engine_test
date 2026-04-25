@@ -10,8 +10,8 @@ class CrystalFlatsBiome : public Biome {
         : Biome("CrystalFlats", {0.4f, 1.0f}, {0.3f, 1.0f}, ParameterRange::Low, 80) {
         auto& registry = engine::RegistryManager::Blocks();
 
-        m_descriptor.heightScale = 4.0f;
-        m_descriptor.heightBase = 64.0f;
+        m_descriptor.heightScale = 5.0f;
+        m_descriptor.heightBase = 65.0f;
 
 
         // m_descriptor.layers.push_back(

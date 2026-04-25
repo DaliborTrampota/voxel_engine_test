@@ -11,8 +11,8 @@ class SilicateSandSeasBiome : public Biome {
         : Biome("SilicateSandSeas", {0.25f, 1.0f}, {0.1f, 0.3f}, ParameterRange::Low, 10) {
         auto& registry = engine::RegistryManager::Blocks();
 
-        m_descriptor.heightScale = 20.0f;
-        m_descriptor.heightBase = 64.0f;
+        m_descriptor.heightScale = 8.0f;
+        m_descriptor.heightBase = 62.0f;
 
         m_descriptor.layers.push_back(
             {.palette = {{registry.get("silicate_sand")->getID()}, {1}}, .depth = -1}
@@ -36,9 +36,9 @@ class SilicateSandSeasBiome : public Biome {
     engine::PerlinNoise m_duneNoise{1, 5.0f, 0.0f, 3, 0.2f};
     glm::vec2 m_windDirection = glm::normalize(glm::vec2(1.0f, 0.3f));
 
-    float m_duneHeight = 15;
-    float m_macroHeight = 2;
-    float m_rippleHeight = 0.5;
+    float m_duneHeight = 5;
+    float m_macroHeight = 1;
+    float m_rippleHeight = 0.2f;
     float m_duneFreq = 0.01f;
 
 
