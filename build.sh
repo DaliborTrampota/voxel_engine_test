@@ -40,8 +40,8 @@ done
 
 if $INSTALL_DEPS; then
     echo "--- Installing system dependencies ---"
-    sudo apt-get update
-    sudo apt-get install -y build-essential cmake libwayland-dev libxkbcommon-dev wayland-protocols
+    sudo apt update
+    sudo apt install -y build-essential cmake libwayland-dev libxkbcommon-dev wayland-protocols pkg-config
 fi
 
 mkdir -p "$BUILD_DIR"

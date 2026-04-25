@@ -23,11 +23,16 @@ inline void registerBlocks() {
         engine::Block(10, engine::Layers::Opaque, &geos.get("cube"))
             .isSolid(true)
             .material(
-                engine::BlockMaterial().add(engine::FaceTag::All, texMgr.texture("underground"))
-            );
+                engine::BlockMaterial().add(engine::FaceTag::All, texMgr.texture("underground")));
+    engine::Block grassGround =
+        engine::Block(69, engine::Layers::Opaque, &geos.get("cube"))
+            .isSolid(true)
+            .material(
+            engine::BlockMaterial().add(engine::FaceTag::Side, texMgr.texture("sides")).add(engine::FaceTag::Top, texMgr.texture("top")).add(engine::FaceTag::Bottom, texMgr.texture("sides")));
 
     blocks.add(ground, "ground");
     blocks.add(underground, "underground");
+    blocks.add(grassGround, "grassground");
 }
 
 // NOTE: default geometries should be registered automatically by engine

@@ -1,0 +1,41 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/lwgl.dir/src/Context.cpp.o"
+  "CMakeFiles/lwgl.dir/src/Context.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/buffer/FBO.cpp.o"
+  "CMakeFiles/lwgl.dir/src/buffer/FBO.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/buffer/IBuffer.cpp.o"
+  "CMakeFiles/lwgl.dir/src/buffer/IBuffer.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/buffer/RBO.cpp.o"
+  "CMakeFiles/lwgl.dir/src/buffer/RBO.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/buffer/UBO.cpp.o"
+  "CMakeFiles/lwgl.dir/src/buffer/UBO.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/detail/TexturePrivate.cpp.o"
+  "CMakeFiles/lwgl.dir/src/detail/TexturePrivate.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/render/Shader.cpp.o"
+  "CMakeFiles/lwgl.dir/src/render/Shader.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/render/ShaderProgram.cpp.o"
+  "CMakeFiles/lwgl.dir/src/render/ShaderProgram.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/texture/BindlessTextures.cpp.o"
+  "CMakeFiles/lwgl.dir/src/texture/BindlessTextures.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/texture/CubeMap.cpp.o"
+  "CMakeFiles/lwgl.dir/src/texture/CubeMap.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/texture/ImageData.cpp.o"
+  "CMakeFiles/lwgl.dir/src/texture/ImageData.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/texture/Texture1D.cpp.o"
+  "CMakeFiles/lwgl.dir/src/texture/Texture1D.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/texture/Texture2D.cpp.o"
+  "CMakeFiles/lwgl.dir/src/texture/Texture2D.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/texture/TextureArray.cpp.o"
+  "CMakeFiles/lwgl.dir/src/texture/TextureArray.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/texture/TextureBase.cpp.o"
+  "CMakeFiles/lwgl.dir/src/texture/TextureBase.cpp.o.d"
+  "CMakeFiles/lwgl.dir/src/texture/TextureRef.cpp.o"
+  "CMakeFiles/lwgl.dir/src/texture/TextureRef.cpp.o.d"
+  "liblwgl.a"
+  "liblwgl.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/lwgl.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
