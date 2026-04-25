@@ -1,0 +1,20 @@
+# Hashes of file build rules.
+c5543650104060f21f3b5b1bb5706740 voxel_engine/dependencies/glfw/src/CMakeFiles/update_mappings
+4c94d54033e714db8c5df3cfcfaf71d4 voxel_engine/dependencies/glfw/src/fractional-scale-v1-client-protocol-code.h
+e335e780d73259438a5a68caccf28a33 voxel_engine/dependencies/glfw/src/fractional-scale-v1-client-protocol.h
+627a61beeebd21fd58ba075ad504c462 voxel_engine/dependencies/glfw/src/idle-inhibit-unstable-v1-client-protocol-code.h
+37d32371caec0f977ad737a80e294363 voxel_engine/dependencies/glfw/src/idle-inhibit-unstable-v1-client-protocol.h
+97f998cfa689f7c185f1935af6329507 voxel_engine/dependencies/glfw/src/pointer-constraints-unstable-v1-client-protocol-code.h
+f7bd2d6f8c4499b7b260f8e91d55dc38 voxel_engine/dependencies/glfw/src/pointer-constraints-unstable-v1-client-protocol.h
+16917f2f5fb98f79133a10d5e90159d8 voxel_engine/dependencies/glfw/src/relative-pointer-unstable-v1-client-protocol-code.h
+42e4aeb4be0b39f38011cff53e8f9bc5 voxel_engine/dependencies/glfw/src/relative-pointer-unstable-v1-client-protocol.h
+29e6d333120566f36aba7591b8868c09 voxel_engine/dependencies/glfw/src/viewporter-client-protocol-code.h
+af2554c30473cb3c9b1fcbb115168b59 voxel_engine/dependencies/glfw/src/viewporter-client-protocol.h
+e9a3b4e31812e027738fad8e61be0706 voxel_engine/dependencies/glfw/src/wayland-client-protocol-code.h
+5715fe3d0233fcf3b2402a8baa57dcf0 voxel_engine/dependencies/glfw/src/wayland-client-protocol.h
+dbd6751cc2d2dbb1cc609cd3395c5cdd voxel_engine/dependencies/glfw/src/xdg-activation-v1-client-protocol-code.h
+0a1764b5233df13e6cf43a27f7fa91bf voxel_engine/dependencies/glfw/src/xdg-activation-v1-client-protocol.h
+52eb391bfd5109b26e5dd745ea7b0f2a voxel_engine/dependencies/glfw/src/xdg-decoration-unstable-v1-client-protocol-code.h
+474d1fc8896e1464260c63dc74418a79 voxel_engine/dependencies/glfw/src/xdg-decoration-unstable-v1-client-protocol.h
+c5656b2f42ce37f38fc28b7edd5bf7e1 voxel_engine/dependencies/glfw/src/xdg-shell-client-protocol-code.h
+9399b5c1348c606970ce05c0674589d1 voxel_engine/dependencies/glfw/src/xdg-shell-client-protocol.h

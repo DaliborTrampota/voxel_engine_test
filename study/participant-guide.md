@@ -92,9 +92,9 @@ U každého úkolu zapište čas **začátku** a **konce**. Pokud uvíznete na v
 ### Úkol 1 — Nový typ bloku
 **Doporučený čas: 10 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku: 15:40    
+Čas konce: 16:42
+Dokončeno: ano
 Přerušeno v: 
 
 **Co implementovat:**
@@ -110,6 +110,7 @@ Postup:
 **Poznámky / co vás zmátlo:**
 
 ```
+1. proekt pouzive relativne cesty);
 
 
 ```
@@ -119,9 +120,9 @@ Postup:
 ### Úkol 2 — Povrchové struktury
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku: 16:45
+Čas konce:     17:52
+Dokončeno: ano  
 Přerušeno v: 
 
 **Co implementovat:**
@@ -154,7 +155,7 @@ Pravidla:
 ### Úkol 3 — Sledovač načítání chunků
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
+Čas začátku:
 Čas konce:    
 Dokončeno: ano/ne   
 Přerušeno v: 
