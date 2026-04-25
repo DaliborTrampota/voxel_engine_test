@@ -8,6 +8,7 @@
 #include <data/RegistryManager.h>
 #include <level/Chunk.h>
 #include <level/data/IChunkData.h>
+#include <random/Random.h>
 
 
 class TerrainGenerator : public engine::ITerrainGenerator {
@@ -19,6 +20,8 @@ class TerrainGenerator : public engine::ITerrainGenerator {
         int y = height(pos.x, pos.z);
         if (pos.y > y)
             return engine::Block::AirID;
+        if (pos.y == y)
+            return engine::RegistryManager::Blocks().get("surface")->getID();
         if (pos.y > y - 3)
             return engine::RegistryManager::Blocks().get("ground")->getID();
         return engine::RegistryManager::Blocks().get("underground")->getID();
@@ -37,6 +40,24 @@ class TerrainGenerator : public engine::ITerrainGenerator {
                     engine::BlockID blockID = voxelAt(glm::ivec3(x, y, z) + chunkCoords);
                     if (blockID != engine::Block::AirID) {
                         data->setBlock(glm::ivec3(x, y, z), blockID);
+                        if (blockID == 11) {
+                            //if (engine::Random::randomRange2D(x,z, 0, 100) <= 5) {
+                            //    data->setBlock(glm::ivec3(x, y+1, z), 9);
+                            //    data->setBlock(glm::ivec3(x, y+2, z), 9);
+                            //    data->setBlock(glm::ivec3(x, y+3, z), 9);
+                            //} 
+                            //else if (engine ::Random::randomRange2D(x, z, 0, 100) <= 10) {
+                            //    data->setBlock(glm::ivec3(x, y+1, z), 10);
+                            //}
+                            if (engine::Random::randomRange2D(x, z,0,100) <= 5 && y +3 < height(x,z)) {
+                                data->setBlock(glm::ivec3(x, y+1, z), 9);
+                                data->setBlock(glm::ivec3(x, y+2, z), 9);
+                                data->setBlock(glm::ivec3(x, y+3, z), 9);
+                            } else if (engine ::Random::randomRange2D(x, z, 0,100) <= 10 && y+1 < height(x, z)) {
+                                data->setBlock(glm::ivec3(x, y+1, z), 10);
+                            }
+ 
+                        } 
                     }
                 }
             }

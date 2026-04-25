@@ -11,7 +11,7 @@ if "%1" == "-cc" (
 )
 
 if "%1" == "-vs" (
-    start build/engine_test.sln
+    start build/engine_test.slnx
     exit
 )
 
@@ -21,4 +21,4 @@ if "%1" == "-conf" (
 )
 
 cmake --preset vs2022
-start build/engine_test.sln
+start build/engine_test.slnx

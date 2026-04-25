@@ -25,9 +25,19 @@ inline void registerBlocks() {
             .material(
                 engine::BlockMaterial().add(engine::FaceTag::All, texMgr.texture("underground"))
             );
+    engine::Block surface =
+        engine::Block(11, engine::Layers::Opaque, &geos.get("cube"))
+            .isSolid(true)
+            .material(
+                engine::BlockMaterial().add(engine::FaceTag::Top, texMgr.texture("top"))
+                .add(engine::FaceTag::Side, texMgr.texture("sides"))
+            );
+
+  
 
     blocks.add(ground, "ground");
     blocks.add(underground, "underground");
+    blocks.add(surface, "surface");
 }
 
 // NOTE: default geometries should be registered automatically by engine

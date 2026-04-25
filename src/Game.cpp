@@ -17,6 +17,7 @@
 #include <scene/Camera.h>
 #include <scene/Sun.h>
 #include <scene/Updateable.h>
+#include <utility/CoordUtils.h>
 
 #include <render/concrete/ScenePass.h>
 
@@ -24,6 +25,7 @@
 #include "GameServices.h"
 #include "level/TerrainGenerator.h"
 #include "registration.h"
+#include "ChunkTracker.h"
 
 using namespace engine;
 
@@ -44,6 +46,17 @@ Game::~Game() {}
 void Game::processInput() {
     if (m_inputSystem->isKey<Down>(GLFW_KEY_ESCAPE))
         window()->setShouldClose();
+    if (m_inputSystem->isMouse<engine::KeyState::Pressed>(GLFW_MOUSE_BUTTON_LEFT)) {
+        auto blocks =
+            traceLine(m_plrCamera->position(), m_plrCamera->position() + m_plrCamera->lookDirection()*5.0f);
+        for (auto blockPos : blocks) {
+            engine::BlockID id = m_world->getBlockID(blockPos, true);
+            //engine::ChunkID chunkID = engine::extractChunkCoords(blockPos);
+            if (id != engine::Block::AirID) {
+                m_world->setBlock(blockPos, engine::Block::AirID);
+            }
+        }
+    }
 }
 
 void Game::render(double dt) {
@@ -66,6 +79,7 @@ void Game::start() {
     m_player = std::make_shared<Player>(opts);
 
     m_world = std::make_shared<engine::World>(std::make_unique<TerrainGenerator>(123, 50.0f, 5));
+    m_world->subscribe(new ChunkTracker());
     m_world->loadChunks({-3, -3, -3}, {3, 3, 3});
 
     int height = m_world->getGenerator()->height(0, 0);
@@ -77,7 +91,7 @@ void Game::start() {
             glm::ivec2(4096, 4096), m_plrCamera, glm::vec3(0.5f, -1.0f, 0.2f)
         )
     );
-
+    
     subscribeUpdate(m_player);
     subscribeUpdate(m_world);
 

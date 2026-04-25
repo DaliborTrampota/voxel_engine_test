@@ -92,9 +92,9 @@ U každého úkolu zapište čas **začátku** a **konce**. Pokud uvíznete na v
 ### Úkol 1 — Nový typ bloku
 **Doporučený čas: 10 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku: 15:10 \
+Čas konce:    15:31\
+Dokončeno:   ano\
 Přerušeno v: 
 
 **Co implementovat:**
@@ -110,7 +110,7 @@ Postup:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+Nevěděl jsem jak se přidávají víc než jedna textura k bloku
 
 ```
 
@@ -119,9 +119,9 @@ Postup:
 ### Úkol 2 — Povrchové struktury
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:    15:32\
+Čas konce:    16:02 \
+Dokončeno: ano   
 Přerušeno v: 
 
 **Co implementovat:**
@@ -145,7 +145,7 @@ Pravidla:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+Aby se generovala pro stejný seed stejná random hodnota, musím použít RandomRange
 
 ```
 
@@ -154,9 +154,9 @@ Pravidla:
 ### Úkol 3 — Sledovač načítání chunků
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:  16:10\
+Čas konce:    16:45\
+Dokončeno: ano  
 Přerušeno v: 
 
 **Co implementovat:**
@@ -179,7 +179,8 @@ Požadavky:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+Nevěděl jsem, že v id chunku jsou data o pozici toho chunku, ze začátku jsem předpokládal, že jsou v chunk->data  
+Trochu v dokumentaci o events-input chyběly potřebné includes na eventy
 
 ```
 
@@ -189,9 +190,9 @@ Požadavky:
 
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku: 16:50\
+Čas konce:  17:14\
+Dokončeno: ano  
 Přerušeno v: 
 
 **Co implementovat:**
@@ -210,7 +211,7 @@ Požadavky:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+Nevěděl jsem, co mám includnout pro funkci traceLine(možná jsem to přehlédl) a to že musím používat pozici kamery a ne hráče
 
 ```
 
