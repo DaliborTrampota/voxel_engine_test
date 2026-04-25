@@ -155,9 +155,9 @@ Pravidla:
 ### Úkol 3 — Sledovač načítání chunků
 **Doporučený čas: 25 minut**
 
-Čas začátku:
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku: 18:10
+Čas konce:  18:41
+Dokončeno: ne   
 Přerušeno v: 
 
 **Co implementovat:**
