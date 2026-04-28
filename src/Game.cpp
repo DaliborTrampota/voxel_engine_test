@@ -24,7 +24,7 @@
 #include "GameServices.h"
 #include "level/TerrainGenerator.h"
 #include "registration.h"
-#include "../build/ChunkTracer.h"
+#include "ChunkTracer.h"
 
 using namespace engine;
 
