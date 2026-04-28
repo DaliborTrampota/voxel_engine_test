@@ -6,6 +6,9 @@
 #include "GLFW/glfw3.h"
 
 
+#include <Globals.h>
+#include <block/Block.h>
+#include <block/Face.h>
 #include <input/InputSystem.h>
 #include <level/Chunk.h>
 #include <level/World.h>
@@ -16,7 +19,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/norm.hpp>
-
+#include "input/events/GLFWEvents.h"
 using namespace engine;
 
 Player::Player(PerspectiveOptions opts) : m_world(nullptr), m_position(0, 0, 0) {
@@ -33,6 +36,19 @@ void Player::spawn(std::shared_ptr<World> world, glm::vec3 spawnPos) {
 
     printf("Spawning player at %.2f %.2f %.2f\n", spawnPos.x, spawnPos.y, spawnPos.z);
 }
+void Player::mouseButtonEvent(engine::MouseButtonEvent* e) {
+    if (e->button == 2) {
+        return;
+    };
+    auto ddares =
+        DDA((*m_world),
+            m_camera->position(),
+            m_camera->lookDirection(),
+            5,
+            [](const Block* b, const Face* f) { return !b->isAir(); });
+    std::cout << ddares.position.x << "\n";
+    m_world->setBlock(ddares.position, Block::AirID);
+};
 
 void Player::update(float dt) {
     auto input = GameServices::getInputSystem();

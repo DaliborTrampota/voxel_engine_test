@@ -3,6 +3,7 @@
 #include <Globals.h>
 #include <block/Block.h>
 #include <block/BlockMaterial.h>
+#include <block/Face.h>
 #include <block/Geometry.h>
 #include <data/RegistryManager.h>
 #include <data/TextureManager.h>
@@ -25,9 +26,18 @@ inline void registerBlocks() {
             .material(
                 engine::BlockMaterial().add(engine::FaceTag::All, texMgr.texture("underground"))
             );
-
+    engine::Block faktSuperBlockBracho =
+        engine::Block(11, engine::Layers::Opaque, &geos.get("cube"))
+            .isSolid(true)
+            .material(
+                engine::BlockMaterial()
+                    .add(engine::FaceTag::Top, texMgr.texture("top"))
+                    .add(engine::FaceTag::Side, texMgr.texture("sides"))
+                    .add(engine::FaceTag::Bottom, texMgr.texture("sides"))
+            );
     blocks.add(ground, "ground");
     blocks.add(underground, "underground");
+    blocks.add(faktSuperBlockBracho, "faktSuperBlockBracho");
 }
 
 // NOTE: default geometries should be registered automatically by engine

@@ -1,6 +1,7 @@
 #pragma once
 
 
+#include <Globals.h>
 #include <level/ITerrainGenerator.h>
 #include <random/PerlinNoise.h>
 
@@ -8,7 +9,8 @@
 #include <data/RegistryManager.h>
 #include <level/Chunk.h>
 #include <level/data/IChunkData.h>
-
+#include <random/Random.h>
+#include "glm/ext/vector_int3.hpp"
 
 class TerrainGenerator : public engine::ITerrainGenerator {
   public:
@@ -17,6 +19,9 @@ class TerrainGenerator : public engine::ITerrainGenerator {
 
     engine::BlockID voxelAt(const glm::ivec3& pos) override final {
         int y = height(pos.x, pos.z);
+        if (pos.y == y) {
+            return engine::RegistryManager::Blocks().get("faktSuperBlockBracho")->getID();
+        }
         if (pos.y > y)
             return engine::Block::AirID;
         if (pos.y > y - 3)
@@ -35,6 +40,27 @@ class TerrainGenerator : public engine::ITerrainGenerator {
             for (int y = 0; y < chunkDims.y; ++y) {
                 for (int z = 0; z < chunkDims.z; ++z) {
                     engine::BlockID blockID = voxelAt(glm::ivec3(x, y, z) + chunkCoords);
+                    glm::ivec3 globalCoords = chunk.id() * chunk.dims() + glm::ivec3(x, y, z);
+                    if (globalCoords.y == height(globalCoords.x, globalCoords.z)) {
+                        int val =
+                            engine::Random::randomRange2D(globalCoords.x, globalCoords.z, 0, 100);
+                        if (val > 90) {
+                            if (y + 1 < 16) {
+                                data->setBlock(
+                                    glm::ivec3(x, y + 1, z),
+                                    engine::RegistryManager::Blocks().get("underground")->getID()
+                                );
+                            }
+                        }
+                        if (val < 5) {
+                            for (int i = y + 1; i < std::min(16, y + 4); ++i) {
+                                data->setBlock(
+                                    glm::ivec3(x, i, z),
+                                    engine::RegistryManager::Blocks().get("underground")->getID()
+                                );
+                            }
+                        }
+                    }
                     if (blockID != engine::Block::AirID) {
                         data->setBlock(glm::ivec3(x, y, z), blockID);
                     }

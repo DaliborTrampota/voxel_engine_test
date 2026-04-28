@@ -6,13 +6,14 @@
 #include <level/Chunk.h>
 #include <scene/Camera.h>
 #include <scene/Updateable.h>
-
+#include "input/events/GLFWEventSite.h"
 
 namespace engine {
     class World;
 }  // namespace engine
 
-class Player : public engine::Updateable {
+class Player : public engine::Updateable,
+               public engine::GLFWEventSite {
   public:
     Player(engine::PerspectiveOptions opts);
     ~Player();
@@ -24,6 +25,7 @@ class Player : public engine::Updateable {
     void move(glm::vec3 dir, float dt);
     void rotate(float dx, float dy, bool constrainPitch = true);
     void setPosition(glm::vec3 position);
+    void mouseButtonEvent(engine::MouseButtonEvent* e) override;
 
     engine::Camera* getCamera() { return m_camera.get(); }
     const glm::vec3& position() const { return m_position; }

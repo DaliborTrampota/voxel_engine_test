@@ -1,4 +1,5 @@
 # VoxelEngine — Studie použitelnosti
+
 ### Průvodce pro účastníka
 
 ---
@@ -90,11 +91,12 @@ U každého úkolu zapište čas **začátku** a **konce**. Pokud uvíznete na v
 ---
 
 ### Úkol 1 — Nový typ bloku
+
 **Doporučený čas: 10 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:    8:45
+Čas konce:    8:54
+Dokončeno: ano/ne  
 Přerušeno v: 
 
 **Co implementovat:**
@@ -102,6 +104,7 @@ Přerušeno v:
 Terén aktuálně používá dva vizuálně totožné typy bloků. Přidejte třetí blok, který se zobrazuje pouze na **přesné povrchové vrstvě** (kde `pos.y == height(x, z)`), s vizuálně odlišnou texturou na horní straně oproti bočním a spodní straně.
 
 Postup:
+
 1. Zaregistrujte nový blok v `registration.h` s jedinečným ID (≥ 11) a materiálem s různými texturami pro různé strany. Ideálně použít textury `top.png` a `sides.png`.
 2. Upravte `TerrainGenerator::voxelAt()` tak, aby vracela nový blok, když `pos.y == y` (přesná povrchová vrstva).
 
@@ -111,17 +114,18 @@ Postup:
 
 ```
 
-
+pridat command linu jak v minecraftu na příkazy
 ```
 
 ---
 
 ### Úkol 2 — Povrchové struktury
+
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:    8:58
+Čas konce:    9:25
+Dokončeno: ano/ne  
 Přerušeno v: 
 
 **Co implementovat:**
@@ -135,6 +139,7 @@ Pro každý sloupec `(x, z)` v chunku najděte **povrchový blok** — nejvyšš
 - **zbývající sloupce:** nic
 
 Pravidla:
+
 - Kmen musí celý ležet uvnitř chunku — **nepište mimo chunk** (lokální Y musí zůstat v `[0, dims.y − 1]`)
 - Pro deterministickou náhodu použijte vhodnou funkci z `<random/Random.h>`
 
@@ -145,18 +150,19 @@ Pravidla:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+dva systemy souradnic v jedne funkci jsou matouci, mozná by pomohlo císt dokumentaci
 
 ```
 
 ---
 
 ### Úkol 3 — Sledovač načítání chunků
-**Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+**Doporučený čas: 25 min:ut**
+
+Čas začátku: 9:27
+Čas konce:  9:42
+Dokončeno: ano/ne  
 Přerušeno v: 
 
 **Co implementovat:**
@@ -164,6 +170,7 @@ Přerušeno v:
 Vytvořte třídu `ChunkTracker`, která naslouchá světu a počítá načtené chunky.
 
 Požadavky:
+
 1. `ChunkTracker` se přihlásí k odběru událostí `World`.
 2. Pokaždé, když se chunk **chystá načíst**, vypište na `stdout`:
   ```
@@ -179,7 +186,7 @@ Požadavky:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+actually to bylo relativně příjemné a dokonce i intuitivní pro někoho kdo nikdy nepsal asynchornní programy
 
 ```
 
@@ -189,9 +196,9 @@ Požadavky:
 
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku: 9.46 pauza 9:57  
+Čas konce: 10.15  
+Dokončeno: ano/ne  
 Přerušeno v: 
 
 **Co implementovat:**
@@ -199,6 +206,7 @@ Přerušeno v:
 Umožněte hráči **bourat bloky levým tlačítkem myši**. Kliknutí odstraní první pevný blok v přímce pohledu (dosah 5 jednotek).
 
 Požadavky:
+
 1. Reakce na kliknutí musí být **event-based** (ne polling v `update()`).
 2. Paprsek vychází z pozice kamery ve směru pohledu; odstraňte první nezduchový blok, který protíná.
 3. Pokud paprsek nic nezasáhne, nic se nestane.
@@ -210,7 +218,8 @@ Požadavky:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+mouse button nemá dokumentaci, prosím o doxygen
+prosím
 
 ```
 

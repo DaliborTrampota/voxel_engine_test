@@ -13,6 +13,7 @@
 #include <data/TextureManager.h>
 #include <input/InputSystem.h>
 #include <level/World.h>
+#include <physics/Plane.h>
 #include <render/Window.h>
 #include <scene/Camera.h>
 #include <scene/Sun.h>
@@ -21,6 +22,7 @@
 #include <render/concrete/ScenePass.h>
 
 
+#include "ChunkTracker.h"
 #include "GameServices.h"
 #include "level/TerrainGenerator.h"
 #include "registration.h"
@@ -84,7 +86,9 @@ void Game::start() {
     m_plrCamera = m_player->getCamera();
     m_plrCamera->lookAt(glm::vec3(0, 0, 0));
     m_window->subscribe(m_plrCamera);
-
+    ChunkTracker tracker;
+    m_world->subscribe(&tracker);
+    m_inputSystem->subscribe(&(*m_player));
 
     window()->mouseLock(true);
     gameloop();
