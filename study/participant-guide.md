@@ -119,9 +119,9 @@ Postup:
 ### Úkol 2 — Povrchové struktury
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:    13:11
+Čas konce:    13:27
+Dokončeno: ano   
 Přerušeno v: 
 
 **Co implementovat:**

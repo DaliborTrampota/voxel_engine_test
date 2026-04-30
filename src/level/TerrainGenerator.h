@@ -45,6 +45,52 @@ class TerrainGenerator : public engine::ITerrainGenerator {
                 }
             }
         }
+
+        auto stoneID = engine::RegistryManager::Blocks().get("underground")->getID();
+        auto trunkID = engine::RegistryManager::Blocks().get("ground")->getID();
+
+        // decorations
+        for (int x = 0; x < chunkDims.x; ++x) {
+            for (int z = 0; z < chunkDims.z; ++z) {
+                int surfaceY = -1;
+
+                for (int y = chunkDims.y - 1; y >= 0; --y) {
+                    const glm::ivec3 localPos{x, y, z};
+
+                    if (data->getBlock(localPos) != engine::Block::AirID) {
+                        surfaceY = y;
+                        break;
+                    }
+                }
+
+                if (surfaceY == -1) {
+                    continue;
+                }
+
+                const int aboveSurfaceY = surfaceY + 1;
+
+                if (aboveSurfaceY >= chunkDims.y) {
+                    continue;
+                }
+
+                const int worldX = chunkCoords.x + x;
+                const int worldZ = chunkCoords.z + z;
+
+                const int chance = engine::Random::randomRange2D(worldX, worldZ, 0, 100);
+
+                if (chance < 5) {
+                    if (surfaceY + 3 < chunkDims.y) {
+                        data->setBlock(glm::ivec3{x, surfaceY + 1, z}, trunkID);
+                        data->setBlock(glm::ivec3{x, surfaceY + 2, z}, trunkID);
+                        data->setBlock(glm::ivec3{x, surfaceY + 3, z}, trunkID);
+                    }
+                } else if (chance < 15) {
+                    if (surfaceY + 1 < chunkDims.y) {
+                        data->setBlock(glm::ivec3{x, surfaceY + 1, z}, stoneID);
+                    }
+                }
+            }
+        }
     }
 
 
