@@ -92,9 +92,9 @@ U každého úkolu zapište čas **začátku** a **konce**. Pokud uvíznete na v
 ### Úkol 1 — Nový typ bloku
 **Doporučený čas: 10 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:    12:58
+Čas konce:    13:08
+Dokončeno: ano   
 Přerušeno v: 
 
 **Co implementovat:**

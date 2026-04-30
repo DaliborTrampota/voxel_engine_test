@@ -17,10 +17,14 @@ class TerrainGenerator : public engine::ITerrainGenerator {
 
     engine::BlockID voxelAt(const glm::ivec3& pos) override final {
         int y = height(pos.x, pos.z);
+
+        if (pos.y == y)
+            return engine::RegistryManager::Blocks().get("special")->getID();
         if (pos.y > y)
             return engine::Block::AirID;
         if (pos.y > y - 3)
             return engine::RegistryManager::Blocks().get("ground")->getID();
+
         return engine::RegistryManager::Blocks().get("underground")->getID();
     }
 
