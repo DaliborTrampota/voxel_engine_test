@@ -66,6 +66,9 @@ void Game::start() {
     m_player = std::make_shared<Player>(opts);
 
     m_world = std::make_shared<engine::World>(std::make_unique<TerrainGenerator>(123, 50.0f, 5));
+
+    m_world->subscribe(&m_chunkTracker);
+
     m_world->loadChunks({-3, -3, -3}, {3, 3, 3});
 
     int height = m_world->getGenerator()->height(0, 0);

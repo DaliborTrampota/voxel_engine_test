@@ -154,9 +154,9 @@ Pravidla:
 ### Úkol 3 — Sledovač načítání chunků
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:    13:28
+Čas konce:    13:50
+Dokončeno: ano   
 Přerušeno v: 
 
 **Co implementovat:**
@@ -179,7 +179,7 @@ Požadavky:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+na log by měl být udělaný mutex aby se nezapisovalo do bufferu z dvou vláken zároveň
 
 ```
 

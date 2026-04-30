@@ -6,6 +6,8 @@
 
 #include "player/Player.h"
 
+#include "level/ChunkTracker.h"
+
 
 namespace engine {
     class Camera;
@@ -32,4 +34,6 @@ class Game : public engine::Engine {
     engine::Camera* m_plrCamera;
 
     std::shared_ptr<engine::World> m_world;
+
+    ChunkTracker m_chunkTracker;
 };
