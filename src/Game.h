@@ -8,13 +8,14 @@
 
 #include "level/ChunkTracker.h"
 
+#include <input/events/GLFWEventSite.h>
 
 namespace engine {
     class Camera;
     class Window;
 }  // namespace engine
 
-class Game : public engine::Engine {
+class Game : public engine::Engine, engine::GLFWEventSite {
   public:
     Game() = delete;
     Game(std::unique_ptr<engine::Window> window, glm::ivec2 dims);
@@ -26,6 +27,12 @@ class Game : public engine::Engine {
 
     void processInput();
     void render(double dt) override;
+
+  protected:
+    void mouseButtonEvent(engine::MouseButtonEvent* e) override;
+
+  private:
+    void breakBlock();
 
   private:
     engine::GLFWUserPointer m_pointer;

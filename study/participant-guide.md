@@ -189,9 +189,9 @@ na log by měl být udělaný mutex aby se nezapisovalo do bufferu z dvou vláke
 
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:    14:33
+Čas konce:    14:57
+Dokončeno: ano   
 Přerušeno v: 
 
 **Co implementovat:**
@@ -210,7 +210,9 @@ Požadavky:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+správný engine by měl mít abstrakci nad tím, co poskytuje input - v tomto případě GLFW,
+míchat GLFW-specifické věci (GLFW konstanty pro status tlačítek a klávec) do user kódu není správné
+při správné abstrakci by nemělo existovat ani GLFWEventSite
 
 ```
 
