@@ -28,7 +28,9 @@ file(GLOB_RECURSE RESOURCE_FILES CONFIGURE_DEPENDS resources/*)
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/shaders" PREFIX "Shaders" FILES ${SHADER_FILES})
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/resources" PREFIX "Resources" FILES ${RESOURCE_FILES})
 
-add_executable(engine_test WIN32 ${SOURCES})
+add_executable(engine_test WIN32 ${SOURCES}
+        src/level/ChunkTracker.cpp
+        src/level/ChunkTracker.h)
 if(WIN32)
     target_link_options(engine_test PRIVATE "/SUBSYSTEM:CONSOLE")
 endif()

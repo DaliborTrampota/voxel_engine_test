@@ -17,10 +17,14 @@ class TerrainGenerator : public engine::ITerrainGenerator {
 
     engine::BlockID voxelAt(const glm::ivec3& pos) override final {
         int y = height(pos.x, pos.z);
+
+        if (pos.y == y)
+            return engine::RegistryManager::Blocks().get("special")->getID();
         if (pos.y > y)
             return engine::Block::AirID;
         if (pos.y > y - 3)
             return engine::RegistryManager::Blocks().get("ground")->getID();
+
         return engine::RegistryManager::Blocks().get("underground")->getID();
     }
 
@@ -37,6 +41,52 @@ class TerrainGenerator : public engine::ITerrainGenerator {
                     engine::BlockID blockID = voxelAt(glm::ivec3(x, y, z) + chunkCoords);
                     if (blockID != engine::Block::AirID) {
                         data->setBlock(glm::ivec3(x, y, z), blockID);
+                    }
+                }
+            }
+        }
+
+        auto stoneID = engine::RegistryManager::Blocks().get("underground")->getID();
+        auto trunkID = engine::RegistryManager::Blocks().get("ground")->getID();
+
+        // decorations
+        for (int x = 0; x < chunkDims.x; ++x) {
+            for (int z = 0; z < chunkDims.z; ++z) {
+                int surfaceY = -1;
+
+                for (int y = chunkDims.y - 1; y >= 0; --y) {
+                    const glm::ivec3 localPos{x, y, z};
+
+                    if (data->getBlock(localPos) != engine::Block::AirID) {
+                        surfaceY = y;
+                        break;
+                    }
+                }
+
+                if (surfaceY == -1) {
+                    continue;
+                }
+
+                const int aboveSurfaceY = surfaceY + 1;
+
+                if (aboveSurfaceY >= chunkDims.y) {
+                    continue;
+                }
+
+                const int worldX = chunkCoords.x + x;
+                const int worldZ = chunkCoords.z + z;
+
+                const int chance = engine::Random::randomRange2D(worldX, worldZ, 0, 100);
+
+                if (chance < 5) {
+                    if (surfaceY + 3 < chunkDims.y) {
+                        data->setBlock(glm::ivec3{x, surfaceY + 1, z}, trunkID);
+                        data->setBlock(glm::ivec3{x, surfaceY + 2, z}, trunkID);
+                        data->setBlock(glm::ivec3{x, surfaceY + 3, z}, trunkID);
+                    }
+                } else if (chance < 15) {
+                    if (surfaceY + 1 < chunkDims.y) {
+                        data->setBlock(glm::ivec3{x, surfaceY + 1, z}, stoneID);
                     }
                 }
             }

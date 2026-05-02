@@ -22,6 +22,7 @@
 
 
 #include "GameServices.h"
+#include "input/events/GLFWEvents.h"
 #include "level/TerrainGenerator.h"
 #include "registration.h"
 
@@ -66,6 +67,9 @@ void Game::start() {
     m_player = std::make_shared<Player>(opts);
 
     m_world = std::make_shared<engine::World>(std::make_unique<TerrainGenerator>(123, 50.0f, 5));
+
+    m_world->subscribe(&m_chunkTracker);
+
     m_world->loadChunks({-3, -3, -3}, {3, 3, 3});
 
     int height = m_world->getGenerator()->height(0, 0);
@@ -85,7 +89,46 @@ void Game::start() {
     m_plrCamera->lookAt(glm::vec3(0, 0, 0));
     m_window->subscribe(m_plrCamera);
 
+    m_inputSystem->subscribe(this);
 
     window()->mouseLock(true);
     gameloop();
+}
+
+void Game::mouseButtonEvent(engine::MouseButtonEvent* e) {
+    if (e->button != GLFW_MOUSE_BUTTON_LEFT) {
+        return;
+    }
+    if (e->action != GLFW_PRESS) {
+        return;
+    }
+
+    breakBlock();
+}
+
+void Game::breakBlock() {
+    if (!m_world || !m_plrCamera) {
+        return;
+    }
+
+    constexpr float reach = 5.0f;
+
+    const glm::vec3 start = m_plrCamera->position();
+    const glm::vec3 direction  = glm::normalize(m_plrCamera->lookDirection());
+
+    auto hit = engine::DDA(
+        *m_world,
+        start,
+        direction ,
+        reach,
+        [](const engine::Block* block, const engine::Face*) {
+            return block && block->getID() != engine::Block::AirID;
+        }
+    );
+
+    if (hit.block == &engine::Block::air()) {
+        return;
+    }
+
+    m_world->setBlock(glm::ivec3(hit.position), engine::Block::AirID);
 }

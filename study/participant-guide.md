@@ -92,9 +92,9 @@ U každého úkolu zapište čas **začátku** a **konce**. Pokud uvíznete na v
 ### Úkol 1 — Nový typ bloku
 **Doporučený čas: 10 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:    12:58
+Čas konce:    13:08
+Dokončeno: ano   
 Přerušeno v: 
 
 **Co implementovat:**
@@ -119,9 +119,9 @@ Postup:
 ### Úkol 2 — Povrchové struktury
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:    13:11
+Čas konce:    13:27
+Dokončeno: ano   
 Přerušeno v: 
 
 **Co implementovat:**
@@ -154,9 +154,9 @@ Pravidla:
 ### Úkol 3 — Sledovač načítání chunků
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:    13:28
+Čas konce:    13:50
+Dokončeno: ano   
 Přerušeno v: 
 
 **Co implementovat:**
@@ -179,7 +179,7 @@ Požadavky:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+na log by měl být udělaný mutex aby se nezapisovalo do bufferu z dvou vláken zároveň
 
 ```
 
@@ -189,9 +189,9 @@ Požadavky:
 
 **Doporučený čas: 25 minut**
 
-Čas začátku:    
-Čas konce:    
-Dokončeno: ano/ne   
+Čas začátku:    14:33
+Čas konce:    14:57
+Dokončeno: ano   
 Přerušeno v: 
 
 **Co implementovat:**
@@ -210,7 +210,9 @@ Požadavky:
 **Poznámky / co vás zmátlo:**
 
 ```
-
+správný engine by měl mít abstrakci nad tím, co poskytuje input - v tomto případě GLFW,
+míchat GLFW-specifické věci (GLFW konstanty pro status tlačítek a klávec) do user kódu není správné
+při správné abstrakci by nemělo existovat ani GLFWEventSite
 
 ```
 
