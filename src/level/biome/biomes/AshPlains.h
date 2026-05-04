@@ -3,6 +3,7 @@
 #include "../Biome.h"
 
 #include <data/RegistryManager.h>
+#include <random/PerlinNoise.h>
 #include <random/Random.h>
 #include <cmath>
 #include <glm/glm.hpp>
@@ -13,7 +14,7 @@ class AshPlainsBiome : public Biome {
     AshPlainsBiome() : Biome("AshPlains", {-1.0f, 1.0f}, {-1.0f, 1.0f}, ParameterRange::Low) {
         auto& registry = engine::RegistryManager::Blocks();
 
-        m_descriptor.heightScale = 8.0f;
+        m_descriptor.heightScale = 4.0f;
         m_descriptor.heightBase = 62.0f;
 
         m_descriptor.layers.push_back(
@@ -48,8 +49,8 @@ class AshPlainsBiome : public Biome {
         0.4f;  // Fraction of radius that's flat (0.4 = 40% of radius)
     static constexpr float m_roughnessStrength =
         8.0f;  // How rough the bottom is (higher = rougher)
-    static constexpr float m_roughnessScale =
-        0.5f;  // Scale of roughness noise (lower = larger features)
+
+    engine::PerlinNoise m_roughnessNoise{2, 12.0f, 0.0f, 3, 0.5f};
 
     /**
      * Calculate sinkhole depth at position (x, z) using point-based generation.
@@ -118,16 +119,7 @@ class AshPlainsBiome : public Biome {
             float roughnessFactor = 1.0f - normalizedDist;      // 1.0 at center, 0.0 at edge
             roughnessFactor = std::pow(roughnessFactor, 2.0f);  // Fade out faster
 
-            // Use deterministic noise for roughness (different seed to avoid correlation)
-            float noiseX = static_cast<float>(x) * m_roughnessScale;
-            float noiseZ = static_cast<float>(z) * m_roughnessScale;
-            float roughness = (engine::Random::random2D(
-                                   static_cast<int>(noiseX * 1000.0f),
-                                   static_cast<int>(noiseZ * 1000.0f)
-                               ) -
-                               0.5f) *
-                              2.0f;  // Range: [-1, 1]
-
+            float roughness = m_roughnessNoise.get2D(static_cast<float>(x), static_cast<float>(z));
             float roughnessOffset = roughness * m_roughnessStrength * roughnessFactor;
 
             return baseDepth + roughnessOffset;

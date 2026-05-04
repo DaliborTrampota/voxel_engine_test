@@ -14,10 +14,10 @@ using namespace engine;
 constexpr int worldScale = 10;
 
 BiomeGenerator::BiomeGenerator(PerlinNoise::Seed seed)
-    : m_height(seed, 50, 0.0f, 5, 0.4f),
-      m_temperature(seed + 1, 50 * worldScale, 0.0f, 5, 0.4f),
-      m_concentration(seed + 2, 40 * worldScale, 0.0f, 5, 0.4f),
-      m_altitude(seed + 3, 30 * worldScale, 0.0f, 5, 0.4f),
+    : m_height(seed, 50, 0.0f, 4, 0.25f),
+      m_temperature(seed + 1, 50 * worldScale, 0.0f, 2, 0.4f),
+      m_concentration(seed + 2, 40 * worldScale, 0.0f, 2, 0.4f),
+      m_altitude(seed + 3, 30 * worldScale, 0.0f, 2, 0.4f),
       m_blockRegistry(RegistryManager::Blocks()) {}
 
 BlockID BiomeGenerator::voxelAt(const glm::ivec3& pos) {

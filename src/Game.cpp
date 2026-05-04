@@ -91,7 +91,7 @@ void Game::start() {
     generator->add(std::make_unique<CrystalFlatsBiome>());
     generator->add(std::make_unique<FrozenGasFieldsBiome>());
 
-    glm::ivec3 viewDistance = {16, 3, 16};
+    glm::ivec3 viewDistance = {12, 3, 12};
     m_world = std::make_shared<engine::World>(std::move(generator));
     m_world->loadChunks(glm::ivec3{0, 3, 0} - viewDistance, glm::ivec3{0, 3, 0} + viewDistance);
 

@@ -10,7 +10,7 @@ class AlgalPlainsBiome : public Biome {
         : Biome("AlgalPlains", {-0.1f, 0.2f}, {-1.0f, -0.2f}, ParameterRange::Mid, 10) {
         auto& registry = engine::RegistryManager::Blocks();
 
-        m_descriptor.heightScale = 8.0f;
+        m_descriptor.heightScale = 4.0f;
         m_descriptor.heightBase = 63.0f;
 
         m_descriptor.layers.push_back(

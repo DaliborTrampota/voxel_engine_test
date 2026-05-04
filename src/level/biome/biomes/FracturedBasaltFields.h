@@ -4,40 +4,16 @@
 
 #include <data/RegistryManager.h>
 #include <random/Random.h>
-#include <array>
-#include <glm/geometric.hpp>
+#include <cmath>
 #include <glm/glm.hpp>
-
-namespace {
-
-    inline float distanceToLineSegment(
-        const glm::vec2& pt, const glm::vec2& lineStart, const glm::vec2& lineEnd
-    ) {
-        glm::vec2 AB = lineEnd - lineStart;
-        glm::vec2 AP = pt - lineStart;
-
-        // If line segment has zero length, return distance to start point
-        float abLengthSq = glm::dot(AB, AB);
-        if (abLengthSq < 0.0001f) {
-            return glm::length(AP);
-        }
-
-        float t = glm::dot(AP, AB) / abLengthSq;
-        t = std::max(0.0f, std::min(1.0f, t));
-
-        glm::vec2 closestPoint = lineStart + t * AB;
-        return glm::length(pt - closestPoint);
-    }
-
-}  // namespace
 
 class FracturedBasaltFieldsBiome : public Biome {
   public:
     FracturedBasaltFieldsBiome()
-        : Biome("FracturedBasaltFields", {0.0f, 1.0f}, {-1.0f, 0.1f}, ParameterRange::Low, 10) {
+        : Biome("FracturedBasaltFields", {-1.0f, 1.0f}, {-1.0f, 0.1f}, ParameterRange::Low, 10) {
         auto& registry = engine::RegistryManager::Blocks();
 
-        m_descriptor.heightScale = 6.0f;
+        m_descriptor.heightScale = 1.0f;
         m_descriptor.heightBase = 62.0f;
 
         m_descriptor.layers.push_back(
@@ -45,95 +21,60 @@ class FracturedBasaltFieldsBiome : public Biome {
         );
     }
 
-    float getHeightModifier(int x, int z, float baseHeight) const {
-        // voronoi diagram, where line there is a fracture?
+    float getHeightModifier(int x, int z, float baseHeight) const override {
         return Biome::getHeightModifier(x, z, baseHeight) - getFractureDepth(x, z);
     }
 
   private:
-    int m_cellSize = 20;
-    float m_fractureWidth = 0.75f;
-    float m_fractureChance = 1.f;  //0.90f;
-    int m_fractureDepth = 4;
+    // Voronoi cracked-clay: each block belongs to its nearest jittered cell point.
+    // The fracture is the locus where two cells are equidistant (F2 - F1 ≈ 0),
+    // giving polygonal flat tiles with sharp narrow cracks between them.
+    static constexpr int m_cellSize = 12;           // ≈ tile diameter in blocks
+    static constexpr float m_jitter = 0.85f;        // 0 = perfect grid, 1 = max randomness
+    static constexpr float m_fractureWidth = 3.0f;  // crack visible width in blocks
+    static constexpr float m_maxDepth = 6.0f;       // crack depth at the seam
+    static constexpr float m_wallSharpness = 4.0f;  // higher = sharper V-walls
 
+    static int floorDiv(int a, int b) { return (a >= 0) ? (a / b) : ((a - b + 1) / b); }
 
     float getFractureDepth(int x, int z) const {
-        // Use floor division for negative coordinates
-        // For negative numbers, we need to subtract 1 before dividing
-        int cellX = (x < 0) ? ((x + 1) / m_cellSize - 1) : (x / m_cellSize);
-        int cellZ = (z < 0) ? ((z + 1) / m_cellSize - 1) : (z / m_cellSize);
+        int cellX = floorDiv(x, m_cellSize);
+        int cellZ = floorDiv(z, m_cellSize);
 
-        float aThis = engine::Random::random2D(cellX, cellZ);
-        if (aThis > m_fractureChance)
-            return 0.0f;
+        float d1Sq = std::numeric_limits<float>::max();
+        float d2Sq = std::numeric_limits<float>::max();
 
-        struct CellPoint {
-            glm::ivec2 cell;
-            glm::vec2 position;
-        };
-        std::array<CellPoint, 4> points;
-        glm::vec2 curCellPt = {0, 0};
-
-
-        int idx = 0;
         for (int dx = -1; dx <= 1; dx++) {
             for (int dz = -1; dz <= 1; dz++) {
-                if (glm::abs(dz) + glm::abs(dx) > 1)
-                    continue;
+                int cx = cellX + dx;
+                int cz = cellZ + dz;
 
-                int checkCellX = cellX + dx;
-                int checkCellZ = cellZ + dz;
+                float jx = engine::Random::random2D(cx, cz);
+                float jz = engine::Random::random2D(cx + 7919, cz + 6917);
 
-                // Find point in the cell but m_fractureWidth away from the cell border
-                int centerX = checkCellX * m_cellSize + m_fractureWidth +
-                              static_cast<int>(
-                                  engine::Random::random2D(checkCellX, checkCellZ + 1000) *
-                                  (m_cellSize - m_fractureWidth * 2)
-                              );
-                int centerZ = checkCellZ * m_cellSize + m_fractureWidth +
-                              static_cast<int>(
-                                  engine::Random::random2D(checkCellX + 1000, checkCellZ) *
-                                  (m_cellSize - m_fractureWidth * 2)
-                              );
+                float px = (cx + 0.5f + (jx - 0.5f) * m_jitter) * m_cellSize;
+                float pz = (cz + 0.5f + (jz - 0.5f) * m_jitter) * m_cellSize;
 
-                if (dx == 0 && dz == 0) {
-                    curCellPt = {centerX, centerZ};
-                    continue;
+                float ddx = static_cast<float>(x) - px;
+                float ddz = static_cast<float>(z) - pz;
+                float distSq = ddx * ddx + ddz * ddz;
+
+                if (distSq < d1Sq) {
+                    d2Sq = d1Sq;
+                    d1Sq = distSq;
+                } else if (distSq < d2Sq) {
+                    d2Sq = distSq;
                 }
-
-                points[idx] = {.cell{checkCellX, checkCellZ}, .position{centerX, centerZ}};
-                idx++;
             }
         }
 
-        glm::vec2 currentPos(static_cast<float>(x), static_cast<float>(z));
-        float minDistance = m_fractureWidth + 1.0f;  // Start beyond fracture width
+        // Edge distance: how far this block sits from the equidistant boundary
+        // between its two closest cells. Zero on the seam, grows inside the tile.
+        float edge = std::sqrt(d2Sq) - std::sqrt(d1Sq);
+        if (edge >= m_fractureWidth)
+            return 0.0f;
 
-        for (int i = 0; i < idx; i++) {
-            const auto& pt = points[i];
-
-            // Check if this neighbor cell has a fracture point
-            float neighborChance = engine::Random::random2D(pt.cell.x, pt.cell.y);
-            if (neighborChance > m_fractureChance)
-                continue;
-
-
-            float distance = distanceToLineSegment(currentPos, curCellPt, pt.position);
-
-            if (distance < minDistance) {
-                minDistance = distance;
-            }
-        }
-
-        if (minDistance < m_fractureWidth) {
-            // normalize 0 = center of fracture, 1 = edge
-            float normalizedDist = minDistance / m_fractureWidth;
-
-            // smooth falloff
-            float depth = (1.0f - normalizedDist) * m_fractureDepth;
-            return depth;
-        }
-
-        return 0.0f;
+        float frac = 1.0f - edge / m_fractureWidth;
+        return std::pow(frac, m_wallSharpness) * m_maxDepth;
     }
 };

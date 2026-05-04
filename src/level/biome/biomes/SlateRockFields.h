@@ -7,7 +7,7 @@
 class SlateRockFieldsBiome : public Biome {
   public:
     SlateRockFieldsBiome()
-        : Biome("SlateRockFields", {0.05f, 1.0f}, {-0.5f, 0.2f}, ParameterRange::High, 10) {
+        : Biome("SlateRockFields", {0.4f, 1.0f}, {-0.5f, 0.2f}, ParameterRange::High, 10) {
         auto& registry = engine::RegistryManager::Blocks();
 
         m_descriptor.heightScale = 10.0f;

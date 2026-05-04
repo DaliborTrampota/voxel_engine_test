@@ -10,7 +10,7 @@ class MicrobialCrustBiome : public Biome {
         : Biome("MicrobialCrust", {-0.3f, -0.1f}, {-1.0f, -0.2f}, ParameterRange::Mid, 10) {
         auto& registry = engine::RegistryManager::Blocks();
 
-        m_descriptor.heightScale = 8.0f;
+        m_descriptor.heightScale = 4.0f;
         m_descriptor.heightBase = 64.0f;
 
         m_descriptor.layers.push_back(

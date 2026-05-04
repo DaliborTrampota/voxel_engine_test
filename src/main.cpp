@@ -1,6 +1,8 @@
 #include <iostream>
 #include <filesystem>
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 #include <render/Window.h>
 #include "Game.h"
 
@@ -32,12 +34,25 @@ static void setWorkingDirToExe(const char* argv0) {
 
 int gameEntry() {
     std::unique_ptr<engine::Window> window = std::make_unique<engine::Window>();
-    if (!window->init(2304, 1440, "Testování voxelového enginu")) {
+    if (!window->init(800, 600, "Testování voxelového enginu")) {
         std::cerr << "Failed to initialize window" << std::endl;
         return -1;
     }
 
-    Game game(std::move(window), window->windowSize());
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    int mx, my;
+    glfwGetMonitorPos(monitor, &mx, &my);
+
+    GLFWwindow* glfwWindow = window->window();
+    glfwSwapInterval(0);
+
+    Game game(std::move(window), glm::ivec2(mode->width, mode->height));
+
+    glfwSetWindowAttrib(glfwWindow, GLFW_DECORATED, GLFW_FALSE);
+    glfwSetWindowPos(glfwWindow, mx, my);
+    glfwSetWindowSize(glfwWindow, mode->width, mode->height);
+
     game.start();
 
     return 0;

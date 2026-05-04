@@ -23,5 +23,5 @@ class BasaltPlateausBiome : public Biome {
     }
 
   private:
-    engine::PerlinNoise m_noise{1, 5, 0.0f, 1, 0.5f};
+    engine::PerlinNoise m_noise{1, 60, 0.0f, 3, 0.5f};
 };
