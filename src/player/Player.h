@@ -35,8 +35,11 @@ class Player : public engine::Updateable,
     void setHeldBlock(engine::BlockID id) { m_heldBlock = id; }
     engine::BlockID heldBlock() const { return m_heldBlock; }
 
+    void setInputFrozen(bool frozen) { m_inputFrozen = frozen; }
+
   private:
     glm::vec3 m_position;
+    bool m_inputFrozen = false;
     float m_speed = 10.f;
     float m_playerHeight = 1.8f;
     engine::BlockID m_heldBlock = engine::Block::AirID;

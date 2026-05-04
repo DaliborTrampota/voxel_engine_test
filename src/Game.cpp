@@ -54,6 +54,13 @@ Game::~Game() {}
 void Game::processInput() {
     if (m_inputSystem->isKey<Down>(GLFW_KEY_ESCAPE))
         window()->setShouldClose();
+
+    if (m_inputSystem->isKey<Pressed>(GLFW_KEY_B))
+        m_benchmark->start(16);
+    if (m_inputSystem->isKey<Pressed>(GLFW_KEY_V))
+        m_benchmark->start(12);
+    if (m_inputSystem->isKey<Pressed>(GLFW_KEY_C))
+        m_benchmark->start(8);
 }
 
 void Game::render(double dt) {
@@ -111,8 +118,11 @@ void Game::start() {
 
     inputSystem()->subscribe(m_player.get());
 
+    m_benchmark = std::make_shared<Benchmark>(m_player, m_world, m_world->getGenerator());
+
     subscribeUpdate(m_player);
     subscribeUpdate(m_world);
+    subscribeUpdate(m_benchmark);
 
     m_plrCamera->lookAt(glm::vec3(0, 0, 0));
     m_window->subscribe(m_plrCamera);

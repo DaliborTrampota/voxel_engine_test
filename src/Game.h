@@ -4,6 +4,7 @@
 #include <render/Engine.h>
 
 
+#include "Benchmark.h"
 #include "player/Player.h"
 
 
@@ -32,4 +33,5 @@ class Game : public engine::Engine {
     engine::Camera* m_plrCamera;
 
     std::shared_ptr<engine::World> m_world;
+    std::shared_ptr<Benchmark> m_benchmark;
 };

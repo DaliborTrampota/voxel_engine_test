@@ -28,7 +28,7 @@ Player::Player(PerspectiveOptions opts) : m_world(nullptr), m_position(0, 0, 0) 
 Player::~Player() {}
 
 void Player::mouseButtonEvent(MouseButtonEvent* pEvent) {
-    if (pEvent->action != GLFW_PRESS || !m_world)
+    if (pEvent->action != GLFW_PRESS || !m_world || m_inputFrozen)
         return;
 
     glm::vec3 pos = m_camera->position();
@@ -62,6 +62,10 @@ void Player::spawn(std::shared_ptr<World> world, glm::vec3 spawnPos) {
 
 void Player::update(float dt) {
     auto input = GameServices::getInputSystem();
+
+    if (m_inputFrozen)
+        return;
+
     float mouseX = input->getAxis(InputAxis::MouseX);
     float mouseY = input->getAxis(InputAxis::MouseY);
 
