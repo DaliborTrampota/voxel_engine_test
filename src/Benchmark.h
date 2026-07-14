@@ -1,6 +1,7 @@
 #pragma once
 
 #include <future>
+#include <limits>
 #include <memory>
 #include <random>
 #include <vector>
@@ -34,6 +35,8 @@ class Benchmark : public engine::Updateable {
     enum class State {
         Idle,
         WaitingForChunks,
+        WarmingUp,
+        Cooldown,
         Rotating,
         Done,
     };
@@ -44,6 +47,8 @@ class Benchmark : public engine::Updateable {
     static constexpr int kIterations = 8;
     static constexpr int kViewDistanceY = 3;
     static constexpr float kRotationDuration = 10.0f;
+    static constexpr float kWarmupDuration = 5.0f;
+    static constexpr float kCooldownDuration = 2.0f;
     static constexpr int kTeleportRangeChunks = 60;
 
     std::shared_ptr<Player> m_player;
@@ -59,11 +64,17 @@ class Benchmark : public engine::Updateable {
     int m_groundHeight = 0;
     float m_startYaw = 0.0f;
 
+    float m_warmupElapsed = 0.0f;
+    float m_cooldownElapsed = 0.0f;
     float m_rotationElapsed = 0.0f;
     int m_frameCount = 0;
     float m_frameTimeAccum = 0.0f;
+    float m_minDt = std::numeric_limits<float>::max();
+    float m_maxDt = 0.0f;
 
     std::vector<float> m_iterationFps;
+    std::vector<float> m_iterationMinFps;
+    std::vector<float> m_iterationMaxFps;
     std::vector<engine::ChunkID> m_loadedSoFar;
 
     std::mt19937 m_rng;

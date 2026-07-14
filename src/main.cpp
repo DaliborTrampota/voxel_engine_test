@@ -40,18 +40,20 @@ int gameEntry() {
     }
 
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
     int mx, my;
     glfwGetMonitorPos(monitor, &mx, &my);
+
+    constexpr int kBenchWidth = 1920;
+    constexpr int kBenchHeight = 1080;
 
     GLFWwindow* glfwWindow = window->window();
     glfwSwapInterval(0);
 
-    Game game(std::move(window), glm::ivec2(mode->width, mode->height));
+    Game game(std::move(window), glm::ivec2(kBenchWidth, kBenchHeight));
 
     glfwSetWindowAttrib(glfwWindow, GLFW_DECORATED, GLFW_FALSE);
     glfwSetWindowPos(glfwWindow, mx, my);
-    glfwSetWindowSize(glfwWindow, mode->width, mode->height);
+    glfwSetWindowSize(glfwWindow, kBenchWidth, kBenchHeight);
 
     game.start();
 

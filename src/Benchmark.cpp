@@ -1,8 +1,10 @@
 #include "Benchmark.h"
 
+#include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <cstdio>
+#include <limits>
 #include <numeric>
 
 #include <glm/gtc/constants.hpp>
@@ -32,6 +34,8 @@ void Benchmark::start(int viewDistance) {
     m_viewDistance = viewDistance;
     m_iteration = 0;
     m_iterationFps.clear();
+    m_iterationMinFps.clear();
+    m_iterationMaxFps.clear();
     m_loadedSoFar.assign(m_world->loadedChunks().begin(), m_world->loadedChunks().end());
     m_player->setInputFrozen(true);
     printf(
@@ -96,21 +100,39 @@ void Benchmark::beginIteration() {
 void Benchmark::finishIteration() {
     float elapsed = m_frameTimeAccum;
     float fps = elapsed > 0.0f ? static_cast<float>(m_frameCount) / elapsed : 0.0f;
+    float avgFrameTimeMs = m_frameCount > 0 ? (elapsed / m_frameCount) * 1000.0f : 0.0f;
+    float minFps = m_maxDt > 0.0f ? 1.0f / m_maxDt : 0.0f;
+    float maxFps = m_minDt < std::numeric_limits<float>::max() ? 1.0f / m_minDt : 0.0f;
     m_iterationFps.push_back(fps);
+    m_iterationMinFps.push_back(minFps);
+    m_iterationMaxFps.push_back(maxFps);
     printf(
-        "[Benchmark] iteration %d/%d done: %d frames in %.2fs => %.2f fps\n",
+        "[Benchmark] iteration %d/%d done: %d frames in %.2fs => avg %.2f fps  |  min %.2f fps  |  max %.2f fps  |  avg frametime %.2f ms\n",
         m_iteration + 1,
         kIterations,
         m_frameCount,
         elapsed,
-        fps
+        fps,
+        minFps,
+        maxFps,
+        avgFrameTimeMs
     );
 
     m_iteration++;
     if (m_iteration >= kIterations) {
         float total = std::accumulate(m_iterationFps.begin(), m_iterationFps.end(), 0.0f);
-        float avg = total / m_iterationFps.size();
-        printf("[Benchmark] FINAL average across %d iterations: %.2f fps\n", kIterations, avg);
+        float avg = total / static_cast<float>(m_iterationFps.size());
+        float overallMin = *std::min_element(m_iterationMinFps.begin(), m_iterationMinFps.end());
+        float overallMax = *std::max_element(m_iterationMaxFps.begin(), m_iterationMaxFps.end());
+        float overallAvgFrameTimeMs = avg > 0.0f ? (1.0f / avg) * 1000.0f : 0.0f;
+        printf(
+            "[Benchmark] FINAL across %d iterations: avg %.2f fps  |  min %.2f fps  |  max %.2f fps  |  avg frametime %.2f ms\n",
+            kIterations,
+            avg,
+            overallMin,
+            overallMax,
+            overallAvgFrameTimeMs
+        );
         if (!m_loadedSoFar.empty()) {
             m_world->unloadChunksFromMemory(m_loadedSoFar);
             m_loadedSoFar.clear();
@@ -138,11 +160,39 @@ void Benchmark::update(float dt) {
             cam->lookDirection(glm::vec3(std::cos(glm::radians(m_startYaw)), 0.0f,
                                          std::sin(glm::radians(m_startYaw))));
 
+            m_warmupElapsed = 0.0f;
             m_rotationElapsed = 0.0f;
             m_frameCount = 0;
             m_frameTimeAccum = 0.0f;
+            m_minDt = std::numeric_limits<float>::max();
+            m_maxDt = 0.0f;
+            m_state = State::WarmingUp;
+            printf("[Benchmark] chunks ready, warming up for %.1fs...\n", kWarmupDuration);
+        }
+        return;
+    }
+
+    if (m_state == State::WarmingUp) {
+        m_warmupElapsed += dt;
+
+        float t = std::fmod(m_warmupElapsed / kWarmupDuration, 1.0f);
+        float yawRad = glm::radians(360.0f * t);
+        engine::Camera* cam = m_player->getCamera();
+        cam->lookDirection(glm::vec3(std::cos(yawRad), 0.0f, std::sin(yawRad)));
+
+        if (m_warmupElapsed >= kWarmupDuration) {
+            m_cooldownElapsed = 0.0f;
+            m_state = State::Cooldown;
+            printf("[Benchmark] warmup done, cooldown %.1fs...\n", kCooldownDuration);
+        }
+        return;
+    }
+
+    if (m_state == State::Cooldown) {
+        m_cooldownElapsed += dt;
+        if (m_cooldownElapsed >= kCooldownDuration) {
             m_state = State::Rotating;
-            printf("[Benchmark] chunks ready, starting rotation\n");
+            printf("[Benchmark] cooldown done, starting rotation\n");
         }
         return;
     }
@@ -151,6 +201,13 @@ void Benchmark::update(float dt) {
         m_rotationElapsed += dt;
         m_frameTimeAccum += dt;
         m_frameCount++;
+        if (dt < m_minDt) m_minDt = dt;
+        if (dt > m_maxDt) m_maxDt = dt;
+
+        if (dt > 0.033f) {
+            float yawDeg = std::fmod(m_startYaw + 360.0f * (m_rotationElapsed / kRotationDuration), 360.0f);
+            printf("[Benchmark] spike: %.1f ms at yaw %.1f deg (t=%.2fs)\n", dt * 1000.0f, yawDeg, m_rotationElapsed);
+        }
 
         float t = std::min(m_rotationElapsed / kRotationDuration, 1.0f);
         float yawDeg = m_startYaw + 360.0f * t;
